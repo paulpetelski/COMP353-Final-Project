@@ -13,7 +13,7 @@
             <div class="card" style="width: 75%">
                 <img src="{{ url_for('static', filename='profile_pics/PatriotGames.jpg') }}" alt="" class="card-img-top">
                 <div class="card-body">
-                    <h5 class="card-title">Book Title</h5>
+                    <h5 class="card-title">{{products[0].Title}}</h5>
                     <p class="card-text">Here is a description of the book...</p>
                     <a href="#" class="btn">See More</a>
                 </div>
@@ -23,7 +23,7 @@
             <div class="card" style="width: 75%">
                 <img src="{{ url_for('static', filename='profile_pics/TargetAquired.jpg') }}" alt="" class="card-img-top">
                 <div class="card-body">
-                    <h5 class="card-title">Book Title</h5>
+                    <h5 class="card-title">{{products[1].Title}}</h5>
                     <p class="card-text">Here is a description of the book...</p>
                     <a href="#" class="btn">See More</a>
                 </div>
@@ -33,11 +33,18 @@
             <div class="card" style="width: 75%">
                 <img src="{{ url_for('static', filename='profile_pics/giver.jpg') }}" alt="" class="card-img-top">
                 <div class="card-body">
-                    <h5 class="card-title">Book Title</h5>
+                    <h5 class="card-title">{{products[6].Title}}</h5>
                     <p class="card-text">Here is a description of the book...</p>
                     <a href="#" class="btn">See More</a>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="mt-5 text-center">
+        <h3>More of our Books:</h3>
+        {% for book in products %}
+            <p>{{ book.Title }}</p>
+        {% endfor %}
     </div>
 {% endblock content %}
