@@ -1,4 +1,36 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Hi!</h1>
+    <!--Create Cards-->
+    <div class="row">
+        <div class="col-sm">
+            <div class="card" style="width: 75%">
+                <img src="{{ url_for('static', filename='profile_pics/PatriotGames.jpg') }}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Book Title</h5>
+                    <p class="card-text">Here is a description of the book...</p>
+                    <a href="#" class="btn">See More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card" style="width: 75%">
+                <img src="{{ url_for('static', filename='profile_pics/TargetAquired.jpg') }}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Book Title</h5>
+                    <p class="card-text">Here is a description of the book...</p>
+                    <a href="#" class="btn">See More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card" style="width: 75%">
+                <img src="{{ url_for('static', filename='profile_pics/giver.jpg') }}" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">Book Title</h5>
+                    <p class="card-text">Here is a description of the book...</p>
+                    <a href="#" class="btn">See More</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
