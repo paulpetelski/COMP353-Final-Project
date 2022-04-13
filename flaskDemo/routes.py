@@ -14,4 +14,9 @@ from datetime import datetime
 @app.route("/home")
 def home():
     productsTable = Product.query.all()
-    return render_template('home.html', products=productsTable)
+    return render_template('home.html', title="Home", products=productsTable)
+
+@app.route("/books/<pid>")
+def book_page(pid):
+    book = Product.query.filter_by(ProductID=pid).first()
+    return render_template('books.html',title=str(book.Title),book=book)

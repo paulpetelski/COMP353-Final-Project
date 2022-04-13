@@ -11,9 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
     {% if title %}
-        <title>Department CRUD</title>
-    {% else %}
-        <title>Department CRUD!</title>
+        <title>{{title}}</title>
     {% endif %}
 </head>
 <body>
@@ -22,7 +20,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="/">Home</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#">Books</a>
