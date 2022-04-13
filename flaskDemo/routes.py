@@ -6,7 +6,7 @@ from flaskDemo import app, db
 #from flaskDemo.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, DeptForm,DeptUpdateForm, AssignForm
 #from flaskDemo.models import User, Post,Department, Dependent, Dept_Locations, Employee, Project, Works_On
 #from flask_login import login_user, current_user, logout_user, login_required
-from flaskDemo.models import Product
+from flaskDemo.models import Product, Publisher
 from datetime import datetime
 
 
@@ -19,4 +19,5 @@ def home():
 @app.route("/books/<pid>")
 def book_page(pid):
     book = Product.query.filter_by(ProductID=pid).first()
-    return render_template('books.html',title=str(book.Title),book=book)
+    publisher = Publisher.query.filter_by(PublisherID=book.PublisherID).first()
+    return render_template('books.html',title=str(book.Title),book=book, publisher=publisher)
