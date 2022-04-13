@@ -17,7 +17,36 @@
     {% endif %}
 </head>
 <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Books</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Orders</a>
+                  </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Register</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">Log In</a>
+                    </li>
+                </ul>
+              </div>
+        </nav>
+    </header>
+
     {% block content %}{% endblock %}
+
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
