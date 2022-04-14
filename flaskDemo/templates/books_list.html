@@ -10,7 +10,7 @@
                     <p class="text-muted">{{book.RetailPrice}}</p>
                     <p class="card-text">Here is a description of the book...</p>
                     <div class="text-center mx-auto mt-auto">
-                        <a href="{{url_for('book_page', pid=6)}}" class="btn">Order</a>
+                        <a href="{{url_for('book_page', pid=book.ProductID)}}" class="btn">Order</a>
                     </div>
                 </div>
             </div>
