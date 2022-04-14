@@ -7,7 +7,8 @@ Drop table if exists orderline;
 Drop table if exists subscription;  
 Drop table if exists book;  
 Drop table if exists product; 
-Drop table if exists publisher; 
+Drop table if exists publisher;
+Drop table if exists user;   
 
  
 CREATE TABLE Publisher 
