@@ -1,3 +1,16 @@
 body{
     font-family: sans-serif;
 }
+
+.flex-layout{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.bg-red{
+    background-color: red;
+    width: 50px;
+    height: 100px;
+}

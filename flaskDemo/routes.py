@@ -16,6 +16,11 @@ def home():
     productsTable = Product.query.all()
     return render_template('home.html', title="Home", products=productsTable)
 
+@app.route("/books")
+def books():
+    productsTable = Product.query.all()
+    return render_template('books_list.html', products=productsTable)
+
 @app.route("/books/<pid>")
 def book_page(pid):
     book = Product.query.filter_by(ProductID=pid).first()
