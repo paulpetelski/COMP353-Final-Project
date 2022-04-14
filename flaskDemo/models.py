@@ -29,11 +29,11 @@ class Subscription(db.Model):
 
 
 @login_manager.user_loader
-def load_user(user_id):
-    return Users.query.get(int(id))
+def load_user(id):
+    return User.query.get(int(id))
 
 
-class Users(db.Model, UserMixin):
+class User(db.Model, UserMixin):
     __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
