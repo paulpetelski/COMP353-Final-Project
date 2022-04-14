@@ -1,0 +1,231 @@
+
+Drop table if exists orders;  
+Drop table if exists customer;  
+Drop table if exists employee;  
+Drop table if exists department;  
+Drop table if exists orderline;  
+Drop table if exists subscription;  
+Drop table if exists book;  
+Drop table if exists product; 
+Drop table if exists publisher; 
+
+ 
+CREATE TABLE Publisher 
+(PublisherID Numeric not null, 
+Name varchar(45), Address varchar(150), City varchar(25), 
+State varchar(20), Zip Numeric not null, 
+constraint Publisher_PK Primary Key(PublisherID));   
+
+CREATE TABLE Product 
+(ProductID Numeric not null, 
+Title varchar(45), Category varchar(20), 
+Type varchar(1),
+PublisherID Numeric not null, 
+RetailPrice Decimal(4,2),
+ImageLink varchar(120),
+constraint Product_PK Primary Key(ProductID), 
+constraint Product_FK Foreign Key (PublisherID) references Publisher (PublisherID)); 
+
+  
+
+CREATE TABLE Book( 
+ProductID Numeric, 
+ISBN bigint, 
+Format varchar(1), 
+Cost Decimal(4,2), 
+Commission Decimal(4,2), 
+constraint Book_PK Primary Key(ProductID), 
+constraint BOOK_FK Foreign Key(ProductID) references Product (ProductID) 
+); 
+
+
+CREATE TABLE Subscription(  
+SubscriptionID Numeric,  
+Cost Decimal(4,2), 
+SubLength Numeric,
+constraint Sub_PK Primary Key(SubscriptionID),  
+constraint Sub_FK Foreign Key(SubscriptionID) references Product(ProductID)  
+);  
+  
+CREATE TABLE OrderLine( 
+OrderID Numeric not null, 
+ProductID Numeric not null, 
+Quantity Numeric not null, 
+SubscriptionStartDate Date,  
+SubscriptionEndDate Date,  
+constraint OrderLine_PK Primary Key(OrderID, ProductID), 
+constraint OrderLine_FK Foreign Key(ProductID) references Product (ProductID) 
+); 
+
+  
+CREATE TABLE Department( 
+DepartmentID Numeric not null, 
+DepartmentName varchar(30), 
+constraint Department_PK Primary Key (DepartmentID) 
+); 
+
+  
+CREATE TABLE Employee( 
+EmployeeID Numeric not null, 
+DepartmentID Numeric not null, 
+EmpFirstName varchar(20), 
+EmpLastName varchar(30), 
+SSN Numeric, 
+Address varchar(150), 
+City varchar(30),  
+State varchar(20), 
+Zip Numeric, 
+constraint Employee_PK Primary Key (EmployeeID), 
+constraint Employee_FK Foreign Key (DepartmentID) references Department (DepartmentID) 
+); 
+
+  
+CREATE TABLE Customer( 
+CustomerID Numeric not null, 
+CustomerFirstName varchar(20), 
+CustomerLastName varchar(30), 
+Address varchar(150), 
+City varchar(25), 
+State varchar(20), 
+Zip Numeric not null, 
+constraint Customer_PK Primary Key (CustomerID) 
+); 
+
+  
+CREATE TABLE Orders( 
+OrderID Numeric not null, 
+CustomerID Numeric not null, 
+DateOfOrder Date, 
+ShippingDate Date, 
+constraint Order_PK Primary Key (OrderID), 
+constraint Order_FK Foreign Key (CustomerID) references Customer (CustomerID)
+); 
+
+CREATE TABLE Users( 
+id Numeric not null, 
+username varchar(100), 
+email varchar(100), 
+password varchar(100), 
+constraint Order_PK Primary Key (id)
+); 
+
+insert into Customer 
+(CustomerID, CustomerFirstName, CustomerLastName, Address, City, State, Zip) 
+Values 
+(0, 'Elizabeth', 'Castillo', '64469 Desiree Gateway St', 'Weberfort', 'OK', 99491), 
+(1, 'Amanda', 'Reed', '8123 Jessica Rapid St', 'East Amandafurt', 'PA', 44684), 
+(2, 'Corey', 'Hall', '7606 Robert Ville St', 'Port Larryview', 'OR', 64903), 
+(3, 'Matthew', 'Miles', '694 Scott Mountains St', 'Lake Markhaven', 'NC', 56981), 
+(4, 'Alison', 'Jackson', '1578 Brown Flats St', 'East Danielle', 'OR', 48402), 
+(5, 'Alexis', 'Parker', '236 Gonzalez Street St', 'West Keithburgh', 'KS', 70407), 
+(6, 'Melissa', 'Burns', '0492 Sara Overpass St', 'Andrewsshire', 'MN', 65155), 
+(7, 'Crystal', 'Munoz', '88362 Anna Curve St', 'Coreyhaven', 'VA', 17017), 
+(8, 'Christine', 'Daniel', '807 Phyllis Spurs St', 'Kyleburgh', 'NY', 33083), 
+(9, 'Dominique', 'Navarro', '489 Barbara Mountain St', 'Lauramouth', 'AR', 63788), 
+(10, 'Samantha', 'Romero', '386 Williams Mall St', 'New Toddhaven', 'OH', 79014), 
+(11, 'Gabriela', 'Brown', '707 Cannon Union St', 'West Jeffrey', 'DC', 43274), 
+(12, 'Marie', 'Berry', '2740 Fisher Vista St', 'Bobbyshire', 'SD', 82427), 
+(13, 'Nicholas', 'English', '71194 Paula Fields St', 'Port Garyfurt', 'CO', 27387), 
+(14, 'Joanna', 'Zamora', '53912 Patricia Mountain St', 'New Jessicatown', 'MO', 04514); 
+
+ 
+Insert into Publisher 
+(PublisherID, Name, Address, City, State, Zip) 
+Values 
+(0, 'Penguin Random House', '1745 Broadway', 'New York', 'NY', 10019),  
+(1, 'Scholastic Corporation', '557 Broadway', 'New York City', 'NY', 10012),  
+(2, 'Crooked Lane Books', '34 W 27th St', 'New York City', 'NY', 10001),  
+(3, 'HarperCollins', '195 Broadway', 'New York', 'NY', 10007),   
+(4, 'Simon & Schuster', '1230 Avenue of the Americas', 'New York', 'NY', 10020),   
+(5, 'A360media', 'Four New York Plaza', 'New York', 'NY', 10004); 
+
+Insert into Product 
+(ProductID, Title, Category, Type, PublisherID, RetailPrice, ImageLink) 
+Values 
+(0, 'Patriot Games', 'Thriller', 'b', 0, 9.99, 'PatriotGames.jpg'),  
+(1, 'Target Acquired', 'Thriller', 'b',  0, 9.99, 'TargetAquired.jpg'),  
+(2, 'The Paperboy', 'Realistic Fiction','b',  1, 10.99, 'ThePaperboy.jpg'),  
+(3, 'The Little Butterfly That Could', 'Comedy and Humor','b',  1, 12.99, 'TheLittleButterflyThatCould.jpg'),  
+(4, 'Garden of Sins', 'Mystery','b',  2, 11.50, 'GardenOfSins.jpg'),  
+(5, 'All That Fall', 'Thriller', 'b', 2, 15.99, 'AllThatFall.jpg'),  
+(6, 'The Giver', 'Realistic Fiction','b', 3, 15.90, 'giver.jpg'),   
+(7, 'Black Ice', 'Thriller','b', 4, 12.99, 'BlackIce.jpg'), 
+(8, 'Number in the Stars', 'Realistic Fiction','b', 3, 12.99, 'NumberInTheStars.jpg'),  
+(9, 'The  Matchmaker', 'Mystery', 'b', 4, 16.99, 'TheMatchmaker.jpg'),  
+(10, 'Crooked in His Way', 'Thriller', 'b', 2, 17.95, 'CrookedInHisWay.jpg'),  
+(11, 'Down a Dark River', 'Thriller','b',  2, 14.50, 'DownADarkRiver.jpg'),  
+(12, 'Star', 'Tabloid', 's',  5, 12.99, 'none.jpg'),   
+(13, 'Scholastic News 1', 'Nonfiction', 's', 1, 7.00, 'none.jpg'),   
+(14, 'Super Science', 'Nonfiction', 's', 1, 6.99, 'none.jpg'),   
+(15, 'Dynamath', 'Nonfiction','s', 1, 8.99, 'none.jpg'); 
+
+Insert into Book 
+(ProductID, ISBN, Format, Cost, Commission) 
+Values 
+(2, 9780531071397, 'p', 3.90, null),   
+(0, 9780440001034, 'p', 4.99, null),  
+(3, 9781338747256, 'p', 4.99, null),   
+(1, 9780593188156, 'e', null , 0.05),  
+(4, 9781643857947, 'p', 6.20, Null),  
+(6, 9780544336261, 'p', 5.40, Null),  
+(7, 9781982104139, 'p', 5.99, null),  
+(8, 9780547577098, 'p', 3.49, null),   
+(5, 9781643856889, 'e', null, 0.05),  
+(9, 9781643138664, 'e', null, 0.04),  
+(10, 9781643857442, 'e', null, 0.05),  
+(11, 9781643858692, 'p', 8.99, null); 
+
+Insert into Subscription 
+(SubscriptionID, Cost, SubLength) 
+Values 
+(12, 7.99, 2), 
+(13, 8.99, 1), 
+(14, 2.99, 2), 
+(15, 3.99, 2); 
+
+Insert into Orders
+(OrderID, CustomerID, DateOfOrder, ShippingDate)  
+values 
+(0, 0, '2021-01-05', '2021-01-07'), 
+(1, 6, '2021-03-07', '2021-03-09'),
+(2, 4, '2021-04-10', '2021-04-12'), 
+(3, 14, '2021-05-14', '2021-05-16'), 
+(4, 10, '2021-12-21', '2021-12-23'), 
+(5, 1, '2021-12-26', '2021-12-28');
+
+ Insert into OrderLine
+ (OrderID, ProductID, Quantity, SubscriptionStartDate, SubscriptionEndDate) 
+ Values 
+ (0, 13, 2, '2021-01-05', '2022-01-05'), 
+ (1, 1, 4, Null, Null), 
+ (2, 9, 1, Null, Null), 
+ (3, 12, 1, '2021-05-14', '2023-05-14'), 
+ (4, 12, 1, '2021-12-21', '2023-12-21'),
+ (5, 6, 1, Null, Null);  
+ 
+ Insert into Department 
+
+(DepartmentID, DepartmentName) 
+
+values 
+(0, 'Sales'), 
+(1, 'Finance'), 
+(2, 'Shipping'); 
+  
+
+Insert into Employee 
+(EmployeeID, DepartmentID, EmpFirstName, EmpLastName, 
+SSN, Address, City, State, Zip) 
+
+values 
+(0, 0, 'Richard', 'Lamb', 962675292, '66435 Joel Mountain', 'North Gavin', 'FL', '41398'), 
+(1, 0, 'Jacqueline', 'Calderon', 984082558, '096 Shawn Lights', 'Edwardfurt', 'ND', '15891'), 
+(2, 1, 'Lisa', 'Short', 238844734, '3577 Sarah Ramp', 'West Mckenziefurt', 'VT', '65781'), 
+(3, 1, 'Emily', 'Sanders', 457392700, '702 Kayla Crossing', 'Mullinsshire', 'NY', '97418'), 
+(4, 2, 'Glenn', 'Greene', 605068857, '168 Robert Street', 'Bellview', 'CO', '62849'), 
+(5, 2, 'Jessica', 'Powers', 631634009, '23480 Renee Spring', 'Michaelview', 'CT', '66597'); 
+
+Insert into Users 
+(id, username, email, password) 
+values
+(1, 'test', 'test@gmail.com', '12345'); 
