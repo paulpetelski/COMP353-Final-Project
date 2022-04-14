@@ -3,9 +3,8 @@
     <h1 class="mt-5">All Books:</h1>
     <div class="flex-layout">
     {% for book in products %}
-    
             <div class="card" style="width: 25%">
-                <img src="{{ url_for('static', filename='images/giver.jpg') }}" alt="" class="card-img-top">
+                <img src="{{ url_for('static', filename='images/' + book.ImageLink) }}" alt="" class="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">{{book.Title}}</h5>
                     <p class="text-muted">{{book.RetailPrice}}</p>
@@ -21,3 +20,5 @@
     {% endfor %}
 </div>
 {% endblock content %}
+
+<!--<img src="{{ url_for('static', filename='images/' + products[0].ImageLink) }}" alt="" class="card-img-top">-->
