@@ -100,7 +100,7 @@ constraint Order_PK Primary Key (OrderID),
 constraint Order_FK Foreign Key (CustomerID) references Customer (CustomerID)
 ); 
 
-CREATE TABLE User( 
+CREATE TABLE Users( 
 id Numeric not null, 
 username varchar(100), 
 email varchar(100), 
@@ -224,7 +224,7 @@ values
 (4, 2, 'Glenn', 'Greene', 605068857, '168 Robert Street', 'Bellview', 'CO', '62849'), 
 (5, 2, 'Jessica', 'Powers', 631634009, '23480 Renee Spring', 'Michaelview', 'CT', '66597'); 
 
-Insert into User 
+Insert into Users 
 (id, username, email, password) 
 values
 (1, 'test', 'test@gmail.com', '12345'); 
