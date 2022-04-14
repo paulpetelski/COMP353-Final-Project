@@ -1,14 +1,11 @@
 from datetime import datetime
-from flaskDemo import db
+from flaskDemo import db, login_manager
 from flask_login import UserMixin
 from functools import partial
 from sqlalchemy import orm
+from flask_login import LoginManager
 
 db.Model.metadata.reflect(db.engine)
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
 
 # add tables
 class Product(db.Model):
@@ -30,7 +27,7 @@ class Publisher(db.Model):
 class Subscription(db.Model):
     __table__ = db.Model.metadata.tables['subscription']
 
-    # login
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
