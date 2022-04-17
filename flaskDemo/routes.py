@@ -6,7 +6,7 @@ from flaskDemo import app, db, bcrypt
 from flaskDemo.forms import RegistrationForm, LoginForm
 #from flaskDemo.models import User, Post,Department, Dependent, Dept_Locations, Employee, Project, Works_On
 from flask_login import login_user, current_user, logout_user, login_required
-from flaskDemo.models import Product, Publisher, User
+from flaskDemo.models import Customer, Orderline, Product, Publisher, User, Orders, Orderline
 from datetime import datetime
 
 
@@ -28,6 +28,17 @@ def book_page(pid):
     return render_template('books.html',title=str(book.Title),book=book, publisher=publisher)
 
 
+@app.route("/orders")
+def orders():
+    orders = Orders.query.join(Orderline, Orders.OrderID == Orderline.OrderID)\
+        .add_columns(Orders.OrderID, Orders.DateOfOrder, Orders.ShippingDate, Orderline.Quantity)\
+        .join(Product, Orderline.ProductID == Product.ProductID)\
+        .add_columns(Product.Title, Product.Category, Product.RetailPrice)\
+        .join(Publisher, Product.PublisherID == Publisher.PublisherID)\
+        .add_columns(Publisher.Name)\
+        .join(Customer, Orders.CustomerID == Customer.CustomerID)\
+        .add_columns(Customer.CustomerFirstName, Customer.CustomerLastName)
+    return render_template('orders.html', orders=orders)
 
 
 @app.route("/register", methods=['GET', 'POST'])
