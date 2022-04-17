@@ -37,7 +37,8 @@ def orders():
         .join(Publisher, Product.PublisherID == Publisher.PublisherID)\
         .add_columns(Publisher.Name)\
         .join(Customer, Orders.CustomerID == Customer.CustomerID)\
-        .add_columns(Customer.CustomerFirstName, Customer.CustomerLastName)
+        .add_columns(Customer.CustomerFirstName, Customer.CustomerLastName)\
+        .order_by(Orders.OrderID)
     return render_template('orders.html', orders=orders)
 
 
