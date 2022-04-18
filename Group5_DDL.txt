@@ -102,6 +102,16 @@ constraint Order_FK Foreign Key (CustomerID) references Customer (CustomerID),
 constraint Order_FK2 Foreign Key (UserEmail) references user (email)
 ); 
 
+CREATE TABLE Users( 
+id Numeric not null, 
+username varchar(100), 
+email varchar(100), 
+password varchar(100), 
+constraint Order_PK Primary Key (id)
+); 
+
+alter table users rename to user;
+
 insert into Customer 
 (CustomerID, CustomerFirstName, CustomerLastName, Address, City, State, Zip) 
 Values 
@@ -177,14 +187,14 @@ Values
 (15, 3.99, 2); 
 
 Insert into Orders
-(OrderID, CustomerID, DateOfOrder, ShippingDate, userid)  
+(OrderID, CustomerID, DateOfOrder, ShippingDate, UserEmail)  
 values 
-(0, 0, '2021-01-05', '2021-01-07', paul@gmail.com), 
-(1, 6, '2021-03-07', '2021-03-09', paul@gmail.com),
-(2, 4, '2021-04-10', '2021-04-12', elena@gmail.com), 
-(3, 14, '2021-05-14', '2021-05-16', elena@gmail.com), 
-(4, 10, '2021-12-21', '2021-12-23', anisa@gmail.com), 
-(5, 1, '2021-12-26', '2021-12-28', anisa@gmail.com);
+(0, 0, '2021-01-05', '2021-01-07', 'paul@gmail.com'), 
+(1, 6, '2021-03-07', '2021-03-09', 'paul@gmail.com'),
+(2, 4, '2021-04-10', '2021-04-12', 'elena@gmail.com'), 
+(3, 14, '2021-05-14', '2021-05-16', 'elena@gmail.com'), 
+(4, 10, '2021-12-21', '2021-12-23', 'anisa@gmail.com'), 
+(5, 1, '2021-12-26', '2021-12-28', 'anisa@gmail.com');
 
  Insert into OrderLine
  (OrderID, ProductID, Quantity, SubscriptionStartDate, SubscriptionEndDate) 
