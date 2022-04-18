@@ -1,9 +1,12 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>Orders</h1>
+    <h2>{{orders[0].UserEmail}}</h2>
     {% for order in orders %}
+        {% if current_user.email == order.UserEmail%}
         <hr>
         <h1>{{current_user.email}}</h1>
+        
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -19,5 +22,6 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     {% endfor %}
 {% endblock content %}
