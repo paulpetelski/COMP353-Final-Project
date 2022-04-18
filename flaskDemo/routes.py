@@ -31,7 +31,7 @@ def book_page(pid):
 @app.route("/orders")
 def orders():
     orders = Orders.query.join(Orderline, Orders.OrderID == Orderline.OrderID)\
-        .add_columns(Orders.OrderID, Orders.DateOfOrder, Orders.ShippingDate, Orderline.Quantity)\
+        .add_columns(Orders.OrderID, Orders.DateOfOrder, Orders.ShippingDate, Orderline.Quantity, Orders.UserEmail)\
         .join(Product, Orderline.ProductID == Product.ProductID)\
         .add_columns(Product.Title, Product.Category, Product.RetailPrice)\
         .join(Publisher, Product.PublisherID == Publisher.PublisherID)\
