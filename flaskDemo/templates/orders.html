@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 {% block content %}
     <h1>Orders</h1>
+
+    <!-- {% if orders.UserEmail == current_user.email %} -->
     {% for order in orders %}
         <hr>
         <h1>{{current_user.email}}</h1>
@@ -19,5 +21,6 @@
                 </div>
             </div>
         </div>
-    {% endfor %}
+    <!-- {% endfor %} -->
+    {% endif %}
 {% endblock content %}

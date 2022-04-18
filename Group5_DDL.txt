@@ -8,6 +8,7 @@ Drop table if exists subscription;
 Drop table if exists book;  
 Drop table if exists product; 
 Drop table if exists publisher;
+Drop table if exists users;
  
 CREATE TABLE Publisher 
 (PublisherID Numeric not null, 
@@ -98,7 +99,7 @@ DateOfOrder Date,
 ShippingDate Date, 
 UserEmail varchar(150) not null, 
 constraint Order_PK Primary Key (OrderID), 
-constraint Order_FK Foreign Key (CustomerID) references Customer (CustomerID),
+constraint Order_FK Foreign Key (CustomerID) references Customer (CustomerID)
 ); 
 
 CREATE TABLE Users( 
@@ -109,7 +110,6 @@ password varchar(100),
 constraint Order_PK Primary Key (id)
 ); 
 
-alter table users rename to user;
 
 insert into Customer 
 (CustomerID, CustomerFirstName, CustomerLastName, Address, City, State, Zip) 
