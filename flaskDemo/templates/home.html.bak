@@ -43,7 +43,7 @@
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{products[6].Title}}</h5>
                     <p class="text-muted">{{products[6].RetailPrice}}</p>
-                    <p class="card-text">In Lois Lowry’s Newbery Medal–winning classic, twelve-year-old Jonas lives in a seemingly ideal world. Not until he is given his life assignment as the Receiver does he begin to understand the dark secrets behind his fragile community.</p>
+                    <p class="card-text">Here is a description of the book...</p>
                     <div class="text-center mx-auto mt-auto">
                         <a href="{{url_for('book_page', pid=6)}}" class="btn">See More</a>
                     </div>
