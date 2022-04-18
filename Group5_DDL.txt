@@ -1,4 +1,4 @@
-
+SET foreign_key_checks = 0;
 Drop table if exists orders;  
 Drop table if exists customer;  
 Drop table if exists employee;  
@@ -99,7 +99,6 @@ ShippingDate Date,
 UserEmail varchar(150) not null, 
 constraint Order_PK Primary Key (OrderID), 
 constraint Order_FK Foreign Key (CustomerID) references Customer (CustomerID),
-constraint Order_FK2 Foreign Key (UserEmail) references user (email)
 ); 
 
 CREATE TABLE Users( 
