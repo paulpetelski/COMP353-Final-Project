@@ -98,12 +98,8 @@ DateOfOrder Date,
 ShippingDate Date, 
 userid Numeric not null, 
 constraint Order_PK Primary Key (OrderID), 
-<<<<<<< HEAD
 constraint Order_FK Foreign Key (CustomerID) references Customer (CustomerID),
-constraint Order_Fk2 Foreign Key (userid) references user (id)
-=======
-constraint Order_FK Foreign Key (CustomerID) references Customer (CustomerID)
->>>>>>> 817af1fddc89de2ccad08b7ce06028805f4c9c2e
+constraint Order_FK2 Foreign Key (userid) references user (id)
 ); 
 
 insert into Customer 
@@ -222,7 +218,3 @@ values
 (3, 1, 'Emily', 'Sanders', 457392700, '702 Kayla Crossing', 'Mullinsshire', 'NY', '97418'), 
 (4, 2, 'Glenn', 'Greene', 605068857, '168 Robert Street', 'Bellview', 'CO', '62849'), 
 (5, 2, 'Jessica', 'Powers', 631634009, '23480 Renee Spring', 'Michaelview', 'CT', '66597'); 
-<<<<<<< HEAD
-
-=======
->>>>>>> 817af1fddc89de2ccad08b7ce06028805f4c9c2e
