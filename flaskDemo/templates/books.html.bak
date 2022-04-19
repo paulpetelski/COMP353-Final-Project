@@ -4,7 +4,7 @@
     <img src="{{url_for('static', filename='images/'+book.ImageLink)}}" alt="" style="width: 25%;">
     <h4>${{book.RetailPrice}}</h4>
     <p>{{publisher.Name}}</p>
-    <button class="btn btn-warning" type="button" onclick="window.location.href='{{ url_for( 'add_book' , book = book.ProductID ) }}';">Order</button>
+    <button class="btn btn-warning" type="button" onclick="window.location.href='{{ url_for( 'add_book' , book = book.ProductID, bookTitle = book.title ) }}';">Order</button>
 {% endblock content %}
 
 

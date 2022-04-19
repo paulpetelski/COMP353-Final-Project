@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1 class="mt-5">Shopping Cart:</h1>
+    {% for item in cartlist %}
+        <p> {{item ['pid']}}
+		</p>
+	{% endfor %}
+	<p> {{cartlist}} </p>
+    <button class="btn btn-warning" type="button" onclick="window.location.href= '#';">Order</button>
+{% endblock content %}
+
+

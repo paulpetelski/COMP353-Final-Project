@@ -61,7 +61,7 @@ def shopping_cart():
         cart = Product.query.filter_by(ProductID=item['pid']).first()
         titlelist.append(cart.Title) 
     print (titlelist)
-    return render_template('shoppingcart.html', title="shoppingcart", titlelist=titlelist )
+    return render_template('shoppingcart.html', title="shoppingcart", cartlist=cartlist )
 
 
 @app.route("/register", methods=['GET', 'POST'])

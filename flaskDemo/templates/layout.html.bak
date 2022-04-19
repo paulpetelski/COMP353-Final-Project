@@ -34,7 +34,7 @@
               
                 <ul class="nav navbar-nav navbar-right">
 				  <li class="nav-item">
-                    <a href="{{ url_for('shopping_cart') }}" class="nav-link text-danger">Shopping Cart</a>
+                    <a href="{{ url_for('shoppingcart') }}" class="nav-link text-danger">Shopping Cart</a>
                   </li>
                   <li class="nav-link pt-2">{{current_user.email}}</li>
                   <li class="nav-item">
