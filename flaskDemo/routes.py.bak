@@ -54,14 +54,30 @@ def orders():
         .order_by(Orders.OrderID)
     return render_template('orders.html', orders=orders)
 
+titlelist=[]
+
 @app.route("/shoppingcart")
 def shopping_cart():
-    titlelist=[]
     for item in cartlist:
         cart = Product.query.filter_by(ProductID=item['pid']).first()
         titlelist.append(cart.Title) 
     print (titlelist)
-    return render_template('shoppingcart.html', title="shoppingcart", cartlist=cartlist )
+    return render_template('shoppingcart.html', title="shoppingcart", titlelist=titlelist )
+
+@app.route("/checkout")
+def checkout():
+    lastorderid = 6
+        for item in titlelist:
+        book = Product.query.filter_by(Title=item).first()
+        lastorderid = lastorderid + 1
+        orderline= Orderline(OrderID = lastorderid, ProductID = book.ProductID , Quantity = 1) 
+        db.session.add(orderline)
+        db.session.commit()
+    return render_template('homeaftercheckout.html', title="Home")
+
+       #dept = Department(dname=form.dname.data, dnumber=form.dnumber.data,mgr_ssn=form.mgr_ssn.data,mgr_start=form.mgr_start.data)
+       #db.session.add(dept)
+       #db.session.commit()
 
 
 @app.route("/register", methods=['GET', 'POST'])

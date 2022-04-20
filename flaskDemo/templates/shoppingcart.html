@@ -6,7 +6,7 @@
 		</p>
 	{% endfor %}
 	<p> {{cartlist}} </p>
-    <button class="btn btn-warning" type="button" onclick="window.location.href= '#';">Order</button>
+    <button class="btn btn-warning" type="button" onclick="window.location.href= '{{ url_for( 'checkout', titlelist = titlelist ) }}';">Order</button>
 {% endblock content %}
 
 
