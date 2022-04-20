@@ -36,6 +36,7 @@ def add_book(book):
     cartdictionary ['pid'] = book
     cartlist.append (cartdictionary)
     print (cartlist)
+    flash('success')
     return render_template('homeaftercart.html', title="Home")
 
 @app.route("/homeaftercart")
@@ -77,7 +78,7 @@ def checkout():
         print("Adding to Orderline: %d, %d, %d" % (last.OrderID, book.ProductID, 1))
         print("cartlist:")
         print(cartlist)
-        print("titlelist:")
+        print("tit:")
         print( titlelist)
         db.session.add(orderline)
         db.session.commit()
