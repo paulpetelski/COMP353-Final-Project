@@ -11,6 +11,7 @@ from datetime import datetime
 
 
 cartlist = list()
+titlelist = []
 
 @app.route("/")
 @app.route("/home")
@@ -54,8 +55,6 @@ def orders():
         .order_by(Orders.OrderID)
     return render_template('orders.html', orders=orders)
 
-titlelist=[]
-
 @app.route("/shoppingcart")
 def shopping_cart():
     for item in cartlist:
@@ -70,9 +69,9 @@ def shopping_cart():
 def checkout():
     # have to add .first() to make it work
     last = Orderline.query.order_by(Orderline.OrderID.desc()).first()
+    last.OrderID = last.OrderID + 1
     for item in titlelist:
         book = Product.query.filter_by(Title=item).first()
-        last.OrderID = last.OrderID + 1
         orderline= Orderline(OrderID = last.OrderID, ProductID = book.ProductID , Quantity = 1) 
         db.session.add(orderline)
         db.session.commit()
