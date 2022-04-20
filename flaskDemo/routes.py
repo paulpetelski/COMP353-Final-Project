@@ -60,7 +60,9 @@ titlelist=[]
 def shopping_cart():
     for item in cartlist:
         cart = Product.query.filter_by(ProductID=item['pid']).first()
-        titlelist.append(cart.Title) 
+        if cart.Title not in titlelist:
+            titlelist.append(cart.Title) 
+
     print (titlelist)
     return render_template('shoppingcart.html', title="shoppingcart", titlelist=titlelist )
 
