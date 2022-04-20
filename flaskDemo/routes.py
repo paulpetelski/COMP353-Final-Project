@@ -66,18 +66,15 @@ def shopping_cart():
 
 @app.route("/checkout")
 def checkout():
-    lastorderid = 6
+    # have to add .first() to make it work
+    last = Orderline.query.order_by(Orderline.OrderID.desc()).first()
     for item in titlelist:
         book = Product.query.filter_by(Title=item).first()
-        lastorderid = lastorderid + 1
-        orderline= Orderline(OrderID = lastorderid, ProductID = book.ProductID , Quantity = 1) 
+        last.OrderID = last.OrderID + 1
+        orderline= Orderline(OrderID = last.OrderID, ProductID = book.ProductID , Quantity = 1) 
         db.session.add(orderline)
         db.session.commit()
     return render_template('homeaftercheckout.html', title="Home")
-
-       #dept = Department(dname=form.dname.data, dnumber=form.dnumber.data,mgr_ssn=form.mgr_ssn.data,mgr_start=form.mgr_start.data)
-       #db.session.add(dept)
-       #db.session.commit()
 
 
 @app.route("/register", methods=['GET', 'POST'])
