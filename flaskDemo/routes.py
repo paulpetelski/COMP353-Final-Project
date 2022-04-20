@@ -73,6 +73,12 @@ def checkout():
     for item in titlelist:
         book = Product.query.filter_by(Title=item).first()
         orderline= Orderline(OrderID = last.OrderID, ProductID = book.ProductID , Quantity = 1) 
+        # --- print for debugging ---
+        print("Adding to Orderline: %d, %d, %d" % (last.OrderID, book.ProductID, 1))
+        print("cartlist:")
+        print(cartlist)
+        print("titlelist:")
+        print( titlelist)
         db.session.add(orderline)
         db.session.commit()
     return render_template('homeaftercheckout.html', title="Home")
