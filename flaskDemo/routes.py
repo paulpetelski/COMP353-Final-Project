@@ -85,6 +85,8 @@ def checkout():
         print( titlelist)
         db.session.add(orderline)
         db.session.commit()
+    cartlist.clear()
+    titlelist.clear()
     return render_template('homeaftercheckout.html', title="Home")
 
 

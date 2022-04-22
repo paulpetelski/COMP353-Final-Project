@@ -11,6 +11,7 @@ from datetime import datetime
 
 
 cartlist = list()
+titlelist = []
 
 @app.route("/")
 @app.route("/home")
@@ -35,10 +36,16 @@ def add_book(book):
     cartdictionary ['pid'] = book
     cartlist.append (cartdictionary)
     print (cartlist)
-    return render_template('homeaftercart.html', title="Home")
+    shopping_cart
+    flash('Book added to cart!','success')
+    productsTable = Product.query.all()
+    # sends user to shopping cart after adding item
+    return redirect(url_for('shopping_cart'))
 
 @app.route("/homeaftercart")
 def homeaftercart():
+    cartlist.clear
+    titlelist.clear
     return render_template('homeaftercart.html', title="Home")
 
 @app.route("/orders")
@@ -54,30 +61,33 @@ def orders():
         .order_by(Orders.OrderID)
     return render_template('orders.html', orders=orders)
 
-titlelist=[]
-
 @app.route("/shoppingcart")
 def shopping_cart():
     for item in cartlist:
         cart = Product.query.filter_by(ProductID=item['pid']).first()
-        titlelist.append(cart.Title) 
+        if cart.Title not in titlelist:
+            titlelist.append(cart.Title) 
+
     print (titlelist)
     return render_template('shoppingcart.html', title="shoppingcart", titlelist=titlelist )
 
 @app.route("/checkout")
 def checkout():
-    lastorderid = 6
-        for item in titlelist:
+    # have to add .first() to make it work
+    last = Orderline.query.order_by(Orderline.OrderID.desc()).first()
+    last.OrderID = last.OrderID + 1
+    for item in titlelist:
         book = Product.query.filter_by(Title=item).first()
-        lastorderid = lastorderid + 1
-        orderline= Orderline(OrderID = lastorderid, ProductID = book.ProductID , Quantity = 1) 
+        orderline= Orderline(OrderID = last.OrderID, ProductID = book.ProductID , Quantity = 1) 
+        # --- print for debugging ---
+        print("Adding to Orderline: %d, %d, %d" % (last.OrderID, book.ProductID, 1))
+        print("cartlist:")
+        print(cartlist)
+        print("titlelist:")
+        print( titlelist)
         db.session.add(orderline)
         db.session.commit()
     return render_template('homeaftercheckout.html', title="Home")
-
-       #dept = Department(dname=form.dname.data, dnumber=form.dnumber.data,mgr_ssn=form.mgr_ssn.data,mgr_start=form.mgr_start.data)
-       #db.session.add(dept)
-       #db.session.commit()
 
 
 @app.route("/register", methods=['GET', 'POST'])
