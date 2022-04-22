@@ -130,3 +130,7 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+@app.route("/adminpage")
+def adminpage():
+    return render_template('adminpage.html')
