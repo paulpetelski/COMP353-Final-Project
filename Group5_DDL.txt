@@ -116,20 +116,20 @@ insert into Customer
 (CustomerID, CustomerFirstName, CustomerLastName, Address, City, State, Zip, Email) 
 Values 
 (0, 'Elizabeth', 'Castillo', '64469 Desiree Gateway St', 'Weberfort', 'OK', 99491,'paul@gmail.com'), 
-(1, 'Amanda', 'Reed', '8123 Jessica Rapid St', 'East Amandafurt', 'PA', 44684, 'anisa@gmail.com'), 
+(1, 'Amanda', 'Reed', '8123 Jessica Rapid St', 'East Amandafurt', 'PA', 44684, 'anisaa@gmail.com'), 
 (2, 'Corey', 'Hall', '7606 Robert Ville St', 'Port Larryview', 'OR', 64903, null), 
 (3, 'Matthew', 'Miles', '694 Scott Mountains St', 'Lake Markhaven', 'NC', 56981, null), 
 (4, 'Alison', 'Jackson', '1578 Brown Flats St', 'East Danielle', 'OR', 48402, 'elena@gmail.com'), 
 (5, 'Alexis', 'Parker', '236 Gonzalez Street St', 'West Keithburgh', 'KS', 70407,null), 
-(6, 'Melissa', 'Burns', '0492 Sara Overpass St', 'Andrewsshire', 'MN', 65155,'paul@gmail.com'), 
+(6, 'Melissa', 'Burns', '0492 Sara Overpass St', 'Andrewsshire', 'MN', 65155,'paull@gmail.com'), 
 (7, 'Crystal', 'Munoz', '88362 Anna Curve St', 'Coreyhaven', 'VA', 17017,null), 
 (8, 'Christine', 'Daniel', '807 Phyllis Spurs St', 'Kyleburgh', 'NY', 33083,null), 
 (9, 'Dominique', 'Navarro', '489 Barbara Mountain St', 'Lauramouth', 'AR', 63788, null), 
 (10, 'Samantha', 'Romero', '386 Williams Mall St', 'New Toddhaven', 'OH', 79014,'anisa@gmail.com'), 
-(11, 'Gabriela', 'Brown', '707 Cannon Union St', 'West Jeffrey', 'DC', 43274, 'elena@gmail.com'), 
-(12, 'Marie', 'Berry', '2740 Fisher Vista St', 'Bobbyshire', 'SD', 82427, 'anisa@gmail.com'), 
-(13, 'Nicholas', 'English', '71194 Paula Fields St', 'Port Garyfurt', 'CO', 27387, 'paul@gmail.com'), 
-(14, 'Joanna', 'Zamora', '53912 Patricia Mountain St', 'New Jessicatown', 'MO', 04514, 'elena@gmail.com'); 
+(11, 'Gabriela', 'Brown', '707 Cannon Union St', 'West Jeffrey', 'DC', 43274, 'ellena@gmail.com'), 
+(12, 'Marie', 'Berry', '2740 Fisher Vista St', 'Bobbyshire', 'SD', 82427, 'anissa@gmail.com'), 
+(13, 'Nicholas', 'English', '71194 Paula Fields St', 'Port Garyfurt', 'CO', 27387, 'pauul@gmail.com'), 
+(14, 'Joanna', 'Zamora', '53912 Patricia Mountain St', 'New Jessicatown', 'MO', 04514, 'elenaa@gmail.com'); 
 
  
 Insert into Publisher 
@@ -190,11 +190,11 @@ Insert into Orders
 (OrderID, CustomerID, DateOfOrder, ShippingDate, UserEmail)  
 values 
 (0, 0, '2021-01-05', '2021-01-07', 'paul@gmail.com'), 
-(1, 6, '2021-03-07', '2021-03-09', 'paul@gmail.com'),
+(1, 6, '2021-03-07', '2021-03-09', 'paull@gmail.com'),
 (2, 4, '2021-04-10', '2021-04-12', 'elena@gmail.com'), 
-(3, 14, '2021-05-14', '2021-05-16', 'elena@gmail.com'), 
+(3, 14, '2021-05-14', '2021-05-16', 'elenaa@gmail.com'), 
 (4, 10, '2021-12-21', '2021-12-23', 'anisa@gmail.com'), 
-(5, 1, '2021-12-26', '2021-12-28', 'anisa@gmail.com');
+(5, 1, '2021-12-26', '2021-12-28', 'anisaa@gmail.com');
 
  Insert into OrderLine
  (OrderID, ProductID, Quantity, SubscriptionStartDate, SubscriptionEndDate) 

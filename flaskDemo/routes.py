@@ -85,6 +85,12 @@ def checkout():
         print( titlelist)
         db.session.add(orderline)
         db.session.commit()
+    lastinOrderLine = Orderline.query.order_by(Orderline.OrderID.desc()).first()
+    customerEmail = current_user.email
+    customerID = Customer.query.filter_by(Email=customerEmail).first()
+    order = Orders(OrderID = lastinOrderLine.OrderID, CustomerID = customerID.CustomerID, DateOfOrder = datetime.today().strftime("%Y-%m-%d"), UserEmail = current_user.email)
+    db.session.add(order)
+    db.session.commit()
     cartlist.clear()
     titlelist.clear()
     return render_template('homeaftercheckout.html', title="Home")
