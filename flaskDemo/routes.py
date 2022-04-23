@@ -6,7 +6,7 @@ from flaskDemo import app, db, bcrypt
 from flaskDemo.forms import RegistrationForm, LoginForm
 #from flaskDemo.models import User, Post,Department, Dependent, Dept_Locations, Employee, Project, Works_On
 from flask_login import login_user, current_user, logout_user, login_required
-from flaskDemo.models import Customer, Orderline, Product, Publisher, User, Orders, Orderline
+from flaskDemo.models import Customer, Orderline, Product, Publisher, User, Orders, Orderline, Book
 from datetime import datetime
 
 
@@ -17,7 +17,8 @@ titlelist = []
 @app.route("/home")
 def home():
     productsTable = Product.query.all()
-    return render_template('home.html', title="Home", products=productsTable)
+    isbns = Book.query.all()
+    return render_template('home.html', title="Home", products=productsTable, isbns=isbns)
 
 @app.route("/books")
 def books():
