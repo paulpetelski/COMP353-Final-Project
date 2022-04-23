@@ -88,7 +88,7 @@ def checkout():
     lastinOrderLine = Orderline.query.order_by(Orderline.OrderID.desc()).first()
     customerEmail = current_user.email
     customerID = Customer.query.filter_by(Email=customerEmail).first()
-    order = Orders(OrderID = lastinOrderLine.OrderID, CustomerID = customerID, DateOfOrder = datetime.today().strftime("%Y-%m-%d"), UserEmail = current_user.email)
+    order = Orders(OrderID = lastinOrderLine.OrderID, CustomerID = customerID.CustomerID, DateOfOrder = datetime.today().strftime("%Y-%m-%d"), UserEmail = current_user.email)
     db.session.add(order)
     db.session.commit()
     cartlist.clear()
@@ -130,3 +130,7 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+app.route("/adminpage")
+def adminpage():
+    return render_template('adminpage.html')
