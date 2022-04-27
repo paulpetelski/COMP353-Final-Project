@@ -5,7 +5,7 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextA
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError,Regexp
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from flaskDemo import db
-from flaskDemo.models import User, Department,Employee, User
+from flaskDemo.models import User, Department,Employee, User, Product, Book
 from wtforms.fields.html5 import DateField
 
 class RegistrationForm(FlaskForm):
@@ -56,3 +56,16 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(email=email.data).first()
             if user:
                 raise ValidationError('That email is taken. Please choose a different one.')
+
+
+productTitles = Product.query.with_entities(Product.Title).distinct()
+productTitleChoices = [(row[0],row[0]) for row in productTitles]
+
+class BookPriceUpdateForm(FlaskForm):
+    pid = HiddenField("")
+    productTitle = SelectField("Products", choices=productTitleChoices)
+    newPrice = IntegerField("Update Price: ", validators=[DataRequired()])
+    submit = SubmitField('Update price')
+    
+    def validate_pid(self, pid):
+        print("a")
