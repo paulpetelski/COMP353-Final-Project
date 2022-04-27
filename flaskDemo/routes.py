@@ -134,20 +134,36 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route("/adminpage<pid>", methods=['GET', 'POST'])
+@app.route("/adminpage/<pid>", methods=['GET', 'POST'])
 def adminpage(pid):
-    product = Product.query.get_or_404(pid)
+    #product = Product.query.get_or_404(pid)
 
     form = BookPriceUpdateForm()
 
     if form.validate_on_submit:
         print("button pressed")
+        #pt = form.productTitle.data
+        #pt = "Patriot Games"
+        product = Product.query.get(pid)
         newPrice = form.newPrice.data
         product.RetailPrice = newPrice
         db.session.commit()
         print(newPrice)
+        print(product)
+        print(product.RetailPrice)
 
 
     
 
     return render_template('adminpage.html', form=form)
+
+@app.route("/delete_book/<pid>", methods=['GET', 'POST'])
+def delete_book(pid):
+    product = Product.query.get_or_404(pid)
+    book = Book.query.get_or_404(pid)
+
+    db.session.delete(book)
+    db.session.delete(product)
+    db.session.commit()
+
+    return redirect(url_for('home'))
