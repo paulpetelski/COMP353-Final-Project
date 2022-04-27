@@ -3,7 +3,7 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from flaskDemo import app, db, bcrypt
-from flaskDemo.forms import RegistrationForm, LoginForm
+from flaskDemo.forms import BookPriceUpdateForm, RegistrationForm, LoginForm
 #from flaskDemo.models import User, Post,Department, Dependent, Dept_Locations, Employee, Project, Works_On
 from flask_login import login_user, current_user, logout_user, login_required
 from flaskDemo.models import Customer, Orderline, Product, Publisher, User, Orders, Orderline, Book
@@ -133,6 +133,21 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-@app.route("/adminpage")
-def adminpage():
-    return render_template('adminpage.html')
+
+@app.route("/adminpage<pid>", methods=['GET', 'POST'])
+def adminpage(pid):
+    product = Product.query.get_or_404(pid)
+
+    form = BookPriceUpdateForm()
+
+    if form.validate_on_submit:
+        print("button pressed")
+        newPrice = form.newPrice.data
+        product.RetailPrice = newPrice
+        db.session.commit()
+        print(pid)
+
+
+    
+
+    return render_template('adminpage.html', form=form)
