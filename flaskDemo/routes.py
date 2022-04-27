@@ -145,7 +145,7 @@ def adminpage(pid):
         newPrice = form.newPrice.data
         product.RetailPrice = newPrice
         db.session.commit()
-        print(pid)
+        print(newPrice)
 
 
     

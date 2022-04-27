@@ -2,33 +2,35 @@
 {% block content %}
    <h1> Admin page </h1>
    <hr>
+   <form method="POST" action="">
+      <div class="form-group">
+         {{ form.productTitle.label(class="form-control-label") }}
+         {% if form.productTitle.errors %}
+            {{ form.productTitle(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+               {% for error in form.productTitle.errors %}
+                     <span>{{ error }}</span>
+               {% endfor %}
+            </div>
+         {% else %}
+            {{ form.productTitle(class="form-control form-control-lg") }}
+         {% endif %}
+   </div>
    <div class="form-group">
-      {{ form.productTitle.label(class="form-control-label") }}
-      {% if form.productTitle.errors %}
-          {{ form.productTitle(class="form-control form-control-lg is-invalid") }}
-          <div class="invalid-feedback">
-              {% for error in form.productTitle.errors %}
+      {{ form.newPrice.label(class="form-control-label") }}
+      {% if form.newPrice.errors %}
+         {{ form.newPrice(class="form-control form-control-lg is-invalid") }}
+         <div class="invalid-feedback">
+            {% for error in form.newPrice.errors %}
                   <span>{{ error }}</span>
-              {% endfor %}
-          </div>
+            {% endfor %}
+         </div>
       {% else %}
-          {{ form.productTitle(class="form-control form-control-lg") }}
+         {{ form.newPrice(class="form-control form-control-lg") }}
       {% endif %}
-  </div>
-  <div class="form-group">
-   {{ form.newPrice.label(class="form-control-label") }}
-   {% if form.newPrice.errors %}
-       {{ form.newPrice(class="form-control form-control-lg is-invalid") }}
-       <div class="invalid-feedback">
-           {% for error in form.newPrice.errors %}
-               <span>{{ error }}</span>
-           {% endfor %}
-       </div>
-   {% else %}
-       {{ form.newPrice(class="form-control form-control-lg") }}
-   {% endif %}
-</div>
-<div class="form-group">
-   {{ form.submit(class="btn btn-outline-info") }}
-</div>
+   </div>
+   <div class="form-group">
+      {{ form.submit(class="btn btn-outline-info") }}
+   </div>
+</form>
 {% endblock content %}

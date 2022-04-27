@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, DateField, SelectField, HiddenField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, IntegerField, DateField, SelectField, HiddenField, DecimalField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError,Regexp
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from flaskDemo import db
@@ -64,7 +64,7 @@ productTitleChoices = [(row[0],row[0]) for row in productTitles]
 class BookPriceUpdateForm(FlaskForm):
     pid = HiddenField("")
     productTitle = SelectField("Products", choices=productTitleChoices)
-    newPrice = IntegerField("Update Price: ", validators=[DataRequired()])
+    newPrice = DecimalField("Update Price: ", validators=[DataRequired()])
     submit = SubmitField('Update price')
     
     def validate_pid(self, pid):
