@@ -54,8 +54,8 @@
 
     <div class="mt-5 text-center">
         <h3>More of our Books:</h3>
-        {% for book in products %}
-            <p>{{ book.Title }}</p>
+        {% for book in booktitle %}
+            <p>{{ book['Title']}}</p>
         {% endfor %}
     </div>
 {% endblock content %}

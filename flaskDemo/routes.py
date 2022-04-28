@@ -1,3 +1,5 @@
+import mysql.connector
+from mysql.connector import Error
 import os
 import secrets
 from PIL import Image
@@ -9,16 +11,40 @@ from flask_login import login_user, current_user, logout_user, login_required
 from flaskDemo.models import Customer, Orderline, Product, Publisher, User, Orders, Orderline, Book
 from datetime import datetime
 
-
+ 
 cartlist = list()
 titlelist = []
 
 @app.route("/")
 @app.route("/home")
 def home():
+    
+ 
+    """ Connect to MySQL database """
+    """ Report -- #8 """
+    try:
+        conn = mysql.connector.connect(host='localhost',
+                                       database='books',
+                                       user='student',
+                                       password='student')
+        if conn.is_connected():
+            cursor = conn.cursor(dictionary=True)
+        else:
+            return('problem')
+        cursor.execute("SELECT * FROM Product")
+        rows = cursor.fetchall()   
+                    
+ 
+    except Error as e:
+        print(e)
+ 
+    finally:
+        conn.close()
+      
+   
     productsTable = Product.query.all()
     isbns = Book.query.all()
-    return render_template('home.html', title="Home", products=productsTable, isbns=isbns)
+    return render_template('home.html', title="Home", products=productsTable, isbns=isbns, booktitle = rows)
 
 @app.route("/books")
 def books():

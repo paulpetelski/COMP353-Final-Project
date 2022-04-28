@@ -1,23 +1,51 @@
+import mysql.connector
+from mysql.connector import Error
 import os
 import secrets
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort
 from flaskDemo import app, db, bcrypt
-from flaskDemo.forms import RegistrationForm, LoginForm
+from flaskDemo.forms import BookPriceUpdateForm, RegistrationForm, LoginForm
 #from flaskDemo.models import User, Post,Department, Dependent, Dept_Locations, Employee, Project, Works_On
 from flask_login import login_user, current_user, logout_user, login_required
-from flaskDemo.models import Customer, Orderline, Product, Publisher, User, Orders, Orderline
+from flaskDemo.models import Customer, Orderline, Product, Publisher, User, Orders, Orderline, Book
 from datetime import datetime
 
-
+ 
 cartlist = list()
 titlelist = []
 
 @app.route("/")
 @app.route("/home")
 def home():
+    
+   
+    """ Connect to MySQL database """
+    """ Report -- #8 """
+    try:
+        conn = mysql.connector.connect(host='localhost',
+                                       database='books',
+                                       user='student',
+                                       password='student')
+        if conn.is_connected():
+            cursor = conn.cursor(dictionary=True)
+        else:
+            return('problem')
+        cursor.execute("SELECT * FROM Product")
+        rows = cursor.fetchall()   
+                    
+ 
+    except Error as e:
+        print(e)
+ 
+    finally:
+        conn.close()
+      
+    print(booktitle)
+    
     productsTable = Product.query.all()
-    return render_template('home.html', title="Home", products=productsTable)
+    isbns = Book.query.all()
+    return render_template('home.html', title="Home", products=productsTable, isbns=isbns, booktitle = rows)
 
 @app.route("/books")
 def books():
@@ -27,8 +55,9 @@ def books():
 @app.route("/books/<pid>")
 def book_page(pid):
     book = Product.query.filter_by(ProductID=pid).first()
+    isbn = Book.query.filter_by(ProductID=pid).first()
     publisher = Publisher.query.filter_by(PublisherID=book.PublisherID).first()
-    return render_template('books.html',title=str(book.Title),book=book, publisher=publisher)
+    return render_template('books.html',title=str(book.Title),book=book, publisher=publisher, isbn=isbn)
 
 @app.route("/addbook/<book>")
 def add_book(book):
@@ -131,6 +160,37 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
-app.route("/adminpage")
-def adminpage():
-    return render_template('adminpage.html')
+
+@app.route("/adminpage/<pid>", methods=['GET', 'POST'])
+def adminpage(pid):
+    #product = Product.query.get_or_404(pid)
+
+    form = BookPriceUpdateForm()
+
+    if form.validate_on_submit:
+        print("button pressed")
+        #pt = form.productTitle.data
+        #pt = "Patriot Games"
+        product = Product.query.get(pid)
+        newPrice = form.newPrice.data
+        product.RetailPrice = newPrice
+        db.session.commit()
+        print(newPrice)
+        print(product)
+        print(product.RetailPrice)
+
+
+    
+
+    return render_template('adminpage.html', form=form)
+
+@app.route("/delete_book/<pid>", methods=['GET', 'POST'])
+def delete_book(pid):
+    product = Product.query.get_or_404(pid)
+    book = Book.query.get_or_404(pid)
+
+    db.session.delete(book)
+    db.session.delete(product)
+    db.session.commit()
+
+    return redirect(url_for('home'))
