@@ -89,6 +89,7 @@ def orders():
         .join(Customer, Orders.CustomerID == Customer.CustomerID)\
         .add_columns(Customer.CustomerFirstName, Customer.CustomerLastName)\
         .order_by(Orders.OrderID)
+
     return render_template('orders.html', orders=orders)
 
 @app.route("/shoppingcart")
@@ -170,8 +171,9 @@ def adminpage():
     mostExpensiveBooks = connect("SELECT Title, Max(RetailPrice) as Price FROM `product`, orderline where Product.ProductID = orderline.ProductID and Type = 'b'group by Category;")
     """ Report #11 & 12 SQLAlchemy"""
     mostExpensiveSubscriptions = Product.query.join(Orderline).filter(Product.Type == 's', Product.ProductID == Orderline.ProductID).group_by(Product.Category)
-
-    return render_template('adminpage.html', books=mostExpensiveBooks, subscriptions=mostExpensiveSubscriptions)
+    """ Report #13 Regular SQL"""
+    customersNotOrdered = connect("SELECT CustomerID, CustomerFirstName, CustomerLastName FROM `customer` where CustomerID not in (Select customer.CustomerID from customer, orders where customer.CustomerID = orders.CustomerID);")
+    return render_template('adminpage.html', books=mostExpensiveBooks, subscriptions=mostExpensiveSubscriptions, customers = customersNotOrdered)
 
 @app.route("/delete_book/<pid>", methods=['GET', 'POST'])
 def delete_book(pid):

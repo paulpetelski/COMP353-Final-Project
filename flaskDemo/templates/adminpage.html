@@ -2,14 +2,18 @@
 {% block content %}
    <h1 class="pt-5"> Admin page </h1>
    <hr>
-   <h1>Highest Priced Books in each Catagory based on Orders:</h1>
+   <h1 class="pt-5">Highest Priced Books in each Catagory based on Orders:</h1>
    {% for book in books %}
       <h3>{{book['Title']}} : ${{book['Price']}}</h3>
    {% endfor %}
 
-   <h1>Highest Priced Subscriptions in each Catagory based on Orders:</h1>
+   <h1 class="pt-5">Highest Priced Subscriptions in each Catagory based on Orders:</h1>
    {% for book in subscriptions %}
       <h3>{{book.Title}} : ${{book.RetailPrice}}</h3>
    {% endfor %}
 
+   <h1 class="pt-5">Customers who have not ordered yet:</h1>
+   {% for customer in customers %}
+       <h3>{{customer.CustomerFirstName}} {{customer.CustomerLastName}}</h3>
+   {% endfor %}
 {% endblock content %}
