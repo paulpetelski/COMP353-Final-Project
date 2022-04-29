@@ -128,7 +128,7 @@ def checkout():
     titlelist.clear()
     return render_template('homeaftercheckout.html', title="Home")
 
-
+"""#14 User Form"""
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -185,3 +185,24 @@ def delete_book(pid):
     db.session.commit()
 
     return redirect(url_for('home'))
+
+"""Report #6, #14, #15"""
+@app.route("/update/<pid>", methods=['GET', 'POST'])
+def update(pid):
+    form = BookPriceUpdateForm()
+
+    if form.validate_on_submit:
+        print("button pressed")
+        #pt = form.productTitle.data
+        #pt = "Patriot Games"
+        product = Product.query.get(pid)
+        newPrice = form.newPrice.data
+        product.RetailPrice = newPrice
+        db.session.commit()
+        print(newPrice)
+        print(product)
+        print(product.RetailPrice)
+        #return render_template('update.html', form=form)
+
+    
+    return render_template('update.html', form=form)

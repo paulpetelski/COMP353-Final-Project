@@ -61,6 +61,7 @@ class UpdateAccountForm(FlaskForm):
 productTitles = Product.query.with_entities(Product.Title).distinct()
 productTitleChoices = [(row[0],row[0]) for row in productTitles]
 
+"""Report #16"""
 class BookPriceUpdateForm(FlaskForm):
     pid = HiddenField("")
     productTitle = SelectField("Products", choices=productTitleChoices)
