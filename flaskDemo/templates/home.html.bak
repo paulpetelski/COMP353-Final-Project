@@ -5,6 +5,8 @@
         <div class="container">
           <h1 class="display-4">Welcome to our Bookstore</h1>
           <h4>Take a look at our selection!</h4>
+		  <h4>There are{{books['sum']}} books.</h4>
+			
         </div>
       </div>
     <!--Create Cards-->
@@ -55,7 +57,7 @@
     <div class="mt-5 text-center">
         <h3>More of our Books:</h3>
         {% for book in booktitle %}
-            <p>{{ booktitle['Title']}}</p>
+            <p>{{ book['Title']}}</p>
         {% endfor %}
     </div>
 {% endblock content %}

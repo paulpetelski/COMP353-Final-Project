@@ -33,7 +33,9 @@ def home():
             return('problem')
         cursor.execute("SELECT * FROM Product")
         rows = cursor.fetchall()   
-                    
+        cursor.execute("SELECT count(*) AS sum FROM Product")     
+        bookchoice = cursor.fetchone()  
+        returnString=str(bookchoice)
  
     except Error as e:
         print(e)
@@ -44,7 +46,7 @@ def home():
    
     productsTable = Product.query.all()
     isbns = Book.query.all()
-    return render_template('home.html', title="Home", products=productsTable, isbns=isbns, booktitle = rows)
+    return render_template('home.html', title="Home", products=productsTable, isbns=isbns, booktitle = rows, books=bookchoice )
 
 @app.route("/books")
 def books():
