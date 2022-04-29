@@ -164,28 +164,14 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route("/adminpage/<pid>", methods=['GET', 'POST'])
-def adminpage(pid):
-    #product = Product.query.get_or_404(pid)
+@app.route("/adminpage", methods=['GET', 'POST'])
+def adminpage():
+    """ Report #11 & #12 Regular SQL"""
+    mostExpensiveBooks = connect("SELECT Title, Max(RetailPrice) as Price FROM `product`, orderline where Product.ProductID = orderline.ProductID and Type = 'b'group by Category;")
+    """ Report #11 & 12 SQLAlchemy"""
+    mostExpensiveSubscriptions = Product.query.join(Orderline).filter(Product.Type == 's', Product.ProductID == Orderline.ProductID).group_by(Product.Category)
 
-    form = BookPriceUpdateForm()
-
-    if form.validate_on_submit:
-        print("button pressed")
-        #pt = form.productTitle.data
-        #pt = "Patriot Games"
-        product = Product.query.get(pid)
-        newPrice = form.newPrice.data
-        product.RetailPrice = newPrice
-        db.session.commit()
-        print(newPrice)
-        print(product)
-        print(product.RetailPrice)
-
-
-    
-
-    return render_template('adminpage.html', form=form)
+    return render_template('adminpage.html', books=mostExpensiveBooks, subscriptions=mostExpensiveSubscriptions)
 
 @app.route("/delete_book/<pid>", methods=['GET', 'POST'])
 def delete_book(pid):

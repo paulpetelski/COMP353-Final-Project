@@ -1,36 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
-   <h1> Admin page </h1>
+   <h1 class="pt-5"> Admin page </h1>
    <hr>
-   <form method="POST" action="">
-      <div class="form-group">
-         {{ form.productTitle.label(class="form-control-label") }}
-         {% if form.productTitle.errors %}
-            {{ form.productTitle(class="form-control form-control-lg is-invalid") }}
-            <div class="invalid-feedback">
-               {% for error in form.productTitle.errors %}
-                     <span>{{ error }}</span>
-               {% endfor %}
-            </div>
-         {% else %}
-            {{ form.productTitle(class="form-control form-control-lg") }}
-         {% endif %}
-   </div>
-   <div class="form-group">
-      {{ form.newPrice.label(class="form-control-label") }}
-      {% if form.newPrice.errors %}
-         {{ form.newPrice(class="form-control form-control-lg is-invalid") }}
-         <div class="invalid-feedback">
-            {% for error in form.newPrice.errors %}
-                  <span>{{ error }}</span>
-            {% endfor %}
-         </div>
-      {% else %}
-         {{ form.newPrice(class="form-control form-control-lg") }}
-      {% endif %}
-   </div>
-   <div class="form-group">
-      {{ form.submit(class="btn btn-outline-info") }}
-   </div>
-</form>
+   <h1>Highest Priced Books in each Catagory based on Orders:</h1>
+   {% for book in books %}
+      <h3>{{book['Title']}} : ${{book['Price']}}</h3>
+   {% endfor %}
+
+   <h1>Highest Priced Subscriptions in each Catagory based on Orders:</h1>
+   {% for book in subscriptions %}
+      <h3>{{book.Title}} : ${{book.RetailPrice}}</h3>
+   {% endfor %}
+
 {% endblock content %}
