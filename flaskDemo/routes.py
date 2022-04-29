@@ -15,13 +15,7 @@ from datetime import datetime
 cartlist = list()
 titlelist = []
 
-@app.route("/")
-@app.route("/home")
-def home():
-    
- 
-    """ Connect to MySQL database """
-    """ Report -- #8 """
+def connect(sql):
     try:
         conn = mysql.connector.connect(host='localhost',
                                        database='books',
@@ -31,22 +25,30 @@ def home():
             cursor = conn.cursor(dictionary=True)
         else:
             return('problem')
-        cursor.execute("SELECT * FROM Product")
+        cursor.execute(sql)
         rows = cursor.fetchall()   
-        cursor.execute("SELECT count(*) AS sum FROM Product")     
-        bookchoice = cursor.fetchone()  
-        returnString=str(bookchoice)
  
     except Error as e:
         print(e)
  
     finally:
         conn.close()
-      
-   
+
+    return rows
+
+@app.route("/")
+@app.route("/home")
+def home():
+    
+ 
+    """ Connect to MySQL database """
+    """ Report -- #8 """
+    rows = connect("SELECT * FROM Product")
+    """ Report -- #10 """
+    bookchoice = connect("SELECT count(*) AS sum FROM Product")
     productsTable = Product.query.all()
     isbns = Book.query.all()
-    return render_template('home.html', title="Home", products=productsTable, isbns=isbns, booktitle = rows, books=bookchoice )
+    return render_template('home.html', title="Home", products=productsTable, isbns=isbns, booktitle = rows, books = bookchoice )
 
 @app.route("/books")
 def books():

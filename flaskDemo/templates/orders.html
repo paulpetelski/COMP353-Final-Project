@@ -2,6 +2,24 @@
 {% block content %}
     <h1 class="mt-5">Orders</h1>
     {% for order in orders %}
+        {% if current_user.email == "admin@gmail.com"%}
+        <hr>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h3 class="text-info">Order # {{order.OrderID}}</h3>
+                    <p><b>Title:</b> {{order.Title}}</p>
+                    <p><b>Customer:</b> {{order.CustomerFirstName}} {{order.CustomerLastName}}</p>
+                    <p><b>Quantity:</b> {{order.Quantity}}</p>
+                    <p><b>Cost per item:</b> ${{order.RetailPrice}}</p>
+                    <p><b>Publisher:</b> {{order.Name}}</p>
+                </div>
+                <div class="col">
+                    <p><b>Ordered:</b> {{order.DateOfOrder}} <br> <b>Shipped:</b> {{order.ShippingDate}}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
         {% if current_user.email == order.UserEmail%}
         <hr>
         <div class="container">

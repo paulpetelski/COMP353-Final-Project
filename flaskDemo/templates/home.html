@@ -5,7 +5,9 @@
         <div class="container">
           <h1 class="display-4">Welcome to our Bookstore</h1>
           <h4>Take a look at our selection!</h4>
-		  <h4>There are {{books['sum']}} books.</h4>
+          {% for book in books %}
+            <h4>There are {{book['sum']}} books.</h4>
+          {% endfor %}
 			
         </div>
       </div>
