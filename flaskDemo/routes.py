@@ -202,7 +202,5 @@ def update(pid):
         print(newPrice)
         print(product)
         print(product.RetailPrice)
-        #return render_template('update.html', form=form)
 
-    
     return render_template('update.html', form=form)

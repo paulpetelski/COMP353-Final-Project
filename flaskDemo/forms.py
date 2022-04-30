@@ -64,9 +64,6 @@ productTitleChoices = [(row[0],row[0]) for row in productTitles]
 """Report #16"""
 class BookPriceUpdateForm(FlaskForm):
     pid = HiddenField("")
-    productTitle = SelectField("Products", choices=productTitleChoices)
-    newPrice = DecimalField("Update Price: ", validators=[DataRequired()])
+    newPrice = DecimalField('Update Price: ', validators=[DataRequired()])
     submit = SubmitField('Update price')
     
-    def validate_pid(self, pid):
-        print("a")
