@@ -168,11 +168,11 @@ def logout():
 @app.route("/adminpage", methods=['GET', 'POST'])
 def adminpage():
     """ Report #11 & #12 Regular SQL"""
-    mostExpensiveBooks = connect("SELECT Title, Max(RetailPrice) as Price FROM `product`, orderline where Product.ProductID = orderline.ProductID and Type = 'b'group by Category;")
+    mostExpensiveBooks = connect("SELECT Title, Max(RetailPrice) as Price, Category FROM `product`, orderline where Product.ProductID = orderline.ProductID and Type = 'b'group by Category;")
     """ Report #11 & 12 SQLAlchemy"""
     mostExpensiveSubscriptions = Product.query.join(Orderline).filter(Product.Type == 's', Product.ProductID == Orderline.ProductID).group_by(Product.Category)
     """ Report #13 Regular SQL"""
-    customersNotOrdered = connect("SELECT CustomerID, CustomerFirstName, CustomerLastName FROM `customer` where CustomerID not in (Select customer.CustomerID from customer, orders where customer.CustomerID = orders.CustomerID);")
+    customersNotOrdered = connect("SELECT CustomerID, CustomerFirstName, CustomerLastName, Email FROM `customer` where CustomerID not in (Select customer.CustomerID from customer, orders where customer.CustomerID = orders.CustomerID);")
     return render_template('adminpage.html', books=mostExpensiveBooks, subscriptions=mostExpensiveSubscriptions, customers = customersNotOrdered)
 
 @app.route("/delete_book/<pid>", methods=['GET', 'POST'])
