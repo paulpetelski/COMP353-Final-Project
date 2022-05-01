@@ -14,9 +14,18 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email',
                         validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password',
-                                     validators=[DataRequired(), EqualTo('password')])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+
+    firstName = StringField('First Name',validators=[DataRequired()])
+    lastName = StringField('Last Name',validators=[DataRequired()])
+    address = StringField('Address',validators=[DataRequired()])
+    city = StringField('City',validators=[DataRequired()])
+    state = StringField('State (Abbreviation ex. IL, MI, AZ)',validators=[DataRequired()])
+    zip = IntegerField('Zip',validators=[DataRequired()])
+
     submit = SubmitField('Sign Up')
+
+
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
