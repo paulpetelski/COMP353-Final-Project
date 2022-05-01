@@ -15,13 +15,7 @@ from datetime import datetime
 cartlist = list()
 titlelist = []
 
-@app.route("/")
-@app.route("/home")
-def home():
-    
- 
-    """ Connect to MySQL database """
-    """ Report -- #8 """
+def connect(sql):
     try:
         conn = mysql.connector.connect(host='localhost',
                                        database='books',
@@ -31,22 +25,30 @@ def home():
             cursor = conn.cursor(dictionary=True)
         else:
             return('problem')
-        cursor.execute("SELECT * FROM Product")
+        cursor.execute(sql)
         rows = cursor.fetchall()   
-        cursor.execute("SELECT count(*) AS sum FROM Product")     
-        bookchoice = cursor.fetchall()  
-        returnString=str(bookchoice)
  
     except Error as e:
         print(e)
  
     finally:
         conn.close()
-      
-   
+
+    return rows
+
+@app.route("/")
+@app.route("/home")
+def home():
+    
+ 
+    """ Connect to MySQL database """
+    """ Report -- #8 """
+    rows = connect("SELECT * FROM Product")
+    """ Report -- #10 """
+    bookchoice = connect("SELECT count(*) AS sum FROM Product")
     productsTable = Product.query.all()
     isbns = Book.query.all()
-    return render_template('home.html', title="Home", products=productsTable, isbns=isbns, booktitle = rows, books=bookchoice )
+    return render_template('home.html', title="Home", products=productsTable, isbns=isbns, booktitle = rows, books = bookchoice )
 
 @app.route("/books")
 def books():
@@ -87,6 +89,7 @@ def orders():
         .join(Customer, Orders.CustomerID == Customer.CustomerID)\
         .add_columns(Customer.CustomerFirstName, Customer.CustomerLastName)\
         .order_by(Orders.OrderID)
+
     return render_template('orders.html', orders=orders)
 
 @app.route("/shoppingcart")
@@ -102,13 +105,13 @@ def shopping_cart():
 @app.route("/checkout")
 def checkout():
     # have to add .first() to make it work
-    last = Orderline.query.order_by(Orderline.OrderID.desc()).first()
-    last.OrderID = last.OrderID + 1
+    #last = Orderline.query.order_by(Orderline.OrderID.desc()).first()
+    #last.OrderID = last.OrderID + 1
     for item in titlelist:
         book = Product.query.filter_by(Title=item).first()
         orderline= Orderline(OrderID = last.OrderID, ProductID = book.ProductID , Quantity = 1) 
         # --- print for debugging ---
-        print("Adding to Orderline: %d, %d, %d" % (last.OrderID, book.ProductID, 1))
+        print("Adding to Orderline: %d, %d, %d" % (OrderID, book.ProductID, 1))
         print("cartlist:")
         print(cartlist)
         print("titlelist:")
@@ -125,7 +128,7 @@ def checkout():
     titlelist.clear()
     return render_template('homeaftercheckout.html', title="Home")
 
-
+"""#14 User Form"""
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -162,10 +165,30 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route("/adminpage/<pid>", methods=['GET', 'POST'])
-def adminpage(pid):
-    #product = Product.query.get_or_404(pid)
+@app.route("/adminpage", methods=['GET', 'POST'])
+def adminpage():
+    """ Report #11 & #12 Regular SQL"""
+    mostExpensiveBooks = connect("SELECT Title, Max(RetailPrice) as Price FROM `product`, orderline where Product.ProductID = orderline.ProductID and Type = 'b'group by Category;")
+    """ Report #11 & 12 SQLAlchemy"""
+    mostExpensiveSubscriptions = Product.query.join(Orderline).filter(Product.Type == 's', Product.ProductID == Orderline.ProductID).group_by(Product.Category)
+    """ Report #13 Regular SQL"""
+    customersNotOrdered = connect("SELECT CustomerID, CustomerFirstName, CustomerLastName FROM `customer` where CustomerID not in (Select customer.CustomerID from customer, orders where customer.CustomerID = orders.CustomerID);")
+    return render_template('adminpage.html', books=mostExpensiveBooks, subscriptions=mostExpensiveSubscriptions, customers = customersNotOrdered)
 
+@app.route("/delete_book/<pid>", methods=['GET', 'POST'])
+def delete_book(pid):
+    product = Product.query.get_or_404(pid)
+    book = Book.query.get_or_404(pid)
+
+    db.session.delete(book)
+    db.session.delete(product)
+    db.session.commit()
+
+    return redirect(url_for('home'))
+
+"""Report #6, #14, #15"""
+@app.route("/update/<pid>", methods=['GET', 'POST'])
+def update(pid):
     form = BookPriceUpdateForm()
 
     if form.validate_on_submit:
@@ -179,19 +202,7 @@ def adminpage(pid):
         print(newPrice)
         print(product)
         print(product.RetailPrice)
-
+        #return render_template('update.html', form=form)
 
     
-
-    return render_template('adminpage.html', form=form)
-
-@app.route("/delete_book/<pid>", methods=['GET', 'POST'])
-def delete_book(pid):
-    product = Product.query.get_or_404(pid)
-    book = Book.query.get_or_404(pid)
-
-    db.session.delete(book)
-    db.session.delete(product)
-    db.session.commit()
-
-    return redirect(url_for('home'))
+    return render_template('update.html', form=form)
