@@ -103,6 +103,8 @@ constraint Order_PK Primary Key (OrderID),
 constraint Order_FK Foreign Key (CustomerID) references Customer (CustomerID)
 ); 
 
+alter table Orders change OrderID OrderID int(11) not null auto_increment;
+
 CREATE TABLE Users( 
 id Numeric not null, 
 username varchar(100), 
@@ -111,6 +113,8 @@ password varchar(100),
 constraint Order_PK Primary Key (id)
 ); 
 
+alter table users rename to user;
+alter table user change id id int(11) not null auto_increment;
 
 insert into Customer 
 (CustomerID, CustomerFirstName, CustomerLastName, Address, City, State, Zip, Email) 
@@ -185,35 +189,6 @@ Values
 (14, 2.99, 2), 
 (15, 3.99, 2); 
 
-Insert into Orders
-(OrderID, CustomerID, DateOfOrder, ShippingDate, UserEmail)  
-values 
-(0, 5, '2021-01-05', '2021-01-07', 'alexis@gmail.com'), 
-(1, 6, '2021-03-07', '2021-03-09', 'melissa@gmail.com'),
-(2, 4, '2021-04-10', '2021-04-12', 'alison@gmail.com'), 
-(3, 14, '2021-05-14', '2021-05-16', 'joanna@gmail.com'), 
-(4, 10, '2021-12-21', '2021-12-23', 'samantha@gmail.com'), 
-(5, 1, '2021-12-26', '2021-12-28', 'amanda@gmail.com'),
-(6, 1, '2022-01-10', '2022-01-12', 'amanda@gmail.com'),
-(7, 14, '2022-01-10', '2022-01-12', 'joanna@gmail.com'),
-(8, 2, '2022-01-12', '2022-01-12', 'corey@gmail.com');
-
- Insert into OrderLine
- (OrderID, ProductID, Quantity, SubscriptionStartDate, SubscriptionEndDate) 
- Values 
- (0, 13, 2, '2021-01-05', '2022-01-05'), 
- (1, 1, 4, Null, Null), 
- (2, 9, 1, Null, Null), 
- (3, 12, 1, '2021-05-14', '2023-05-14'), 
- (4, 12, 1, '2021-12-21', '2023-12-21'),
- (5, 6, 1, Null, Null),  
- (5, 13, 3,'2021-12-26', '2022-12-26'),
- (6, 15, 1, '2022-01-10', '2024-01-10'),
- (6, 4, 2, Null, Null ),
- (7, 10, 1,Null, Null ),
- (7, 0, 2, Null, Null ),
- (7, 14, 1,'2022-01-10','2024-01-10'),
- (8, 2, 1, Null, Null);
 
  Insert into Department 
 
@@ -236,3 +211,4 @@ values
 (3, 1, 'Emily', 'Sanders', 457392700, '702 Kayla Crossing', 'Mullinsshire', 'NY', '97418'), 
 (4, 2, 'Glenn', 'Greene', 605068857, '168 Robert Street', 'Bellview', 'CO', '62849'), 
 (5, 2, 'Jessica', 'Powers', 631634009, '23480 Renee Spring', 'Michaelview', 'CT', '66597'); 
+
