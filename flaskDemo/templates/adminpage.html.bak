@@ -1,4 +1,94 @@
 {% extends "layout.html" %}
 {% block content %}
-   <h1> Admin </h1>
+   <h1 class="pt-5"> Admin page </h1>
+   <hr>
+   <div class="row">
+      <div class="col-12">
+         <h2 class="pt-5">Most Popular Books Sold:</h2>
+      </div>
+      <div class="col-6">
+         <table class="table table-striped table-hover">
+            <thead>
+               <th>Book</th>
+               <th>Price</th>
+               <th>Category</th>
+               <th>Copies Sold</th>
+            </thead>
+            {% for book in books %}
+            <tr>
+               <td>{{book.Title}}</td>
+               <td>{{book.RetailPrice}}</td>
+               <td>{{book.Category}}</td>
+               <td>{{book.numSold}}</td>
+            </tr>
+            {% endfor %}
+         </table>
+      </div>
+   </div>
+
+   <div class="row">
+      <div class="col-12">
+         <h2 class="pt-5">Most Popular Subscriptions Ordered:</h2>
+      </div>
+      <div class="col-6">
+         <table class="table table-striped table-hover">
+            <thead>
+               <th>Subscription</th>
+               <th>Price</th>
+               <th>Category</th>
+               <th>Copies Sold</th>
+            </thead>
+            {% for book in subscriptions %}
+            <tr>
+               <td>{{book.Title}}</td>
+               <td>{{book.RetailPrice}}</td>
+               <td>{{book.Category}}</td>
+               <td>{{book.count}}</td>
+            </tr>
+            {% endfor %}
+         </table>
+      </div>
+   </div>
+
+   <div class="row">
+      <div class="col-12">
+         <h2 class="pt-5">Customers who have not ordered yet:</h2>
+      </div>
+      <div class="col-6">
+         <table class="table table-striped table-hover">
+            <thead>
+               <th>Customer</th>
+               <th>e-Mail</th>
+            </thead>
+            {% for customer in customers %}
+            <tr>
+               <td>{{customer.CustomerFirstName}} {{customer.CustomerLastName}}</td>
+               <td>{{customer.Email}}</td>
+            </tr>
+            {% endfor %}
+         </table>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-12">
+         <h2 class="pt-5">Emals of customers who made a purchase:</h2>
+      </div>
+      <div class="col-6">
+         <table class="table table-striped table-hover">
+            <thead>
+               <th>Subscription</th>
+               <th>Price</th>
+               <th>Category</th>
+               <th>Copies Sold</th>
+            </thead>
+            {% for customer in emails %}
+            <tr>
+               <td>{{customer.CustomerFirstName}}</td>
+               <td>{{customer.CustomerLastName}}</td>
+               <td>{{Customer.Email}}</td>
+             </tr>
+            {% endfor %}
+         </table>
+      </div>
+   </div>
 {% endblock content %}

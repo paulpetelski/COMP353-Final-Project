@@ -194,7 +194,16 @@ def adminpage():
     print(mostExpensiveSubscriptions[0][0])
     """ Report #13 Regular SQL"""
     customersNotOrdered = connect("SELECT CustomerID, CustomerFirstName, CustomerLastName, Email FROM `customer` where CustomerID not in (Select customer.CustomerID from customer, orders where customer.CustomerID = orders.CustomerID);")
-    return render_template('adminpage.html', books=mostExpensiveBooks, subscriptions=mostExpensiveSubscriptions, customers = customersNotOrdered)
+    
+    
+    
+    subquery = db.session.query(Orders.CustomerID)
+    customersemails = db.session.query(Customer.CustomerFirstName, Customer.CustomerLastName, Customer.Email).filter(Customer.CustomerID.in_(subquery))
+#    customersemails = query.all()
+    print ("TEST for subq:" + str(customersemails))
+    print (customersemails)
+    
+    return render_template('adminpage.html', books=mostExpensiveBooks, subscriptions=mostExpensiveSubscriptions, customers = customersNotOrdered, emails = customersemails)
 
 @app.route("/delete_book/<pid>", methods=['GET', 'POST'])
 def delete_book(pid):
