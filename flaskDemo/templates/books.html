@@ -14,7 +14,7 @@
             <h4 class="pt-3">${{book.RetailPrice}}</h4>
             <p>{{publisher.Name}}</p>
             <p id="author"></p>
-            <button class="btn btn-warning" type="button" onclick="window.location.href='{{ url_for( 'add_book' , book = book.ProductID ) }}';">Order</button>
+            <button class="btn btn-warning" type="button" onclick="window.location.href='{{ url_for( 'add_book' , book = book.ProductID ) }}';">Add to cart</button>
             {% if current_user.email == 'admin@gmail.com' %}
                 <!-- Report #17 -->
                 <button class="btn btn-warning" type="button" onclick="window.location.href='{{ url_for( 'update', pid=book.ProductID ) }}';">Edit</button>

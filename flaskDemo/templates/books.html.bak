@@ -27,7 +27,7 @@
             <p id="description"></p>
         </div>
     </div>
-	{% if book.type = 'b' %}
+	{% if book.type == 'b' %}
     <script>
         // search API for book by isbn number
         async function getBook(isbn){
