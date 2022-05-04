@@ -39,8 +39,10 @@ def connect(sql):
 @app.route("/")
 @app.route("/home")
 def home():
+    last = Customer.query.order_by(Customer.CustomerID.desc()).first()
+    lastCustomer = last.CustomerID + 1 
+    print (lastCustomer)
     
- 
     """ Connect to MySQL database """
     """ Report -- #8 """
     rows = connect("SELECT * FROM Product")
@@ -134,15 +136,20 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = RegistrationForm()
+#    last = Customer.query.order_by(Customer.CustomerID.desc()).first()
+#    lastCustomer = last.CustomerID + 1 
+  
+    
     if form.validate_on_submit():
+        last = Customer.query.order_by(Customer.CustomerID.desc()).first()
+        lastCustomer = last.CustomerID + 1 
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
-        db.session.add(user)
+        customer = Customer(CustomerID = lastCustomer, CustomerFirstName=form.firstName.data, CustomerLastName=form.lastName.data,
+        Address=form.address.data, City=form.city.data, State=form.state.data, Zip=form.zip.data, Email=form.email.data)
+        db.session.add_all([user,customer])
         db.session.commit()
-
-        customer = Customer(CustomerFirstName=form.firstName.data, CustomerLastName=form.lastName.data,
-        Address=form.address.data, City=form.city.data, State=form.state.data, Zip=form.zip.data)
-
+        
         flash('Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)

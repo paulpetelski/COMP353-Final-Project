@@ -39,8 +39,10 @@ def connect(sql):
 @app.route("/")
 @app.route("/home")
 def home():
+    last = Customer.query.order_by(Customer.CustomerID.desc()).first()
+    lastCustomer = last.CustomerID + 1 
+    print (lastCustomer)
     
- 
     """ Connect to MySQL database """
     """ Report -- #8 """
     rows = connect("SELECT * FROM Product")
@@ -105,13 +107,13 @@ def shopping_cart():
 @app.route("/checkout")
 def checkout():
     # have to add .first() to make it work
-    #last = Orderline.query.order_by(Orderline.OrderID.desc()).first()
-    #last.OrderID = last.OrderID + 1
+    last = Orderline.query.order_by(Orderline.OrderID.desc()).first()
+    last.OrderID = last.OrderID + 1
     for item in titlelist:
         book = Product.query.filter_by(Title=item).first()
         orderline= Orderline(OrderID = last.OrderID, ProductID = book.ProductID , Quantity = 1) 
         # --- print for debugging ---
-        print("Adding to Orderline: %d, %d, %d" % (OrderID, book.ProductID, 1))
+        print("Adding to Orderline: %d, %d, %d" % (last.OrderID, book.ProductID, 1))
         print("cartlist:")
         print(cartlist)
         print("titlelist:")
@@ -134,11 +136,18 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = RegistrationForm()
+    last = Customer.query.order_by(Customer.CustomerID.desc()).first()
+    lastCustomer = last.CustomerID + 1 
+  
+    
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
-        db.session.add(user)
+        customer = Customer(CustomerID = lastCustomer, CustomerFirstName=form.firstName.data, CustomerLastName=form.lastName.data,
+        Address=form.address.data, City=form.city.data, State=form.state.data, Zip=form.zip.data, Email=form.email.data)
+        db.session.add_all([user,customer])
         db.session.commit()
+        
         flash('Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
@@ -168,11 +177,11 @@ def logout():
 @app.route("/adminpage", methods=['GET', 'POST'])
 def adminpage():
     """ Report #11 & #12 Regular SQL"""
-    mostExpensiveBooks = connect("SELECT Title, Max(RetailPrice) as Price FROM `product`, orderline where Product.ProductID = orderline.ProductID and Type = 'b'group by Category;")
+    mostExpensiveBooks = connect("SELECT Title, Max(RetailPrice) as Price, Category FROM `product`, orderline where Product.ProductID = orderline.ProductID and Type = 'b'group by Category;")
     """ Report #11 & 12 SQLAlchemy"""
     mostExpensiveSubscriptions = Product.query.join(Orderline).filter(Product.Type == 's', Product.ProductID == Orderline.ProductID).group_by(Product.Category)
     """ Report #13 Regular SQL"""
-    customersNotOrdered = connect("SELECT CustomerID, CustomerFirstName, CustomerLastName FROM `customer` where CustomerID not in (Select customer.CustomerID from customer, orders where customer.CustomerID = orders.CustomerID);")
+    customersNotOrdered = connect("SELECT CustomerID, CustomerFirstName, CustomerLastName, Email FROM `customer` where CustomerID not in (Select customer.CustomerID from customer, orders where customer.CustomerID = orders.CustomerID);")
     return render_template('adminpage.html', books=mostExpensiveBooks, subscriptions=mostExpensiveSubscriptions, customers = customersNotOrdered)
 
 @app.route("/delete_book/<pid>", methods=['GET', 'POST'])
@@ -202,7 +211,5 @@ def update(pid):
         print(newPrice)
         print(product)
         print(product.RetailPrice)
-        #return render_template('update.html', form=form)
 
-    
     return render_template('update.html', form=form)

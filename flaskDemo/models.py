@@ -21,8 +21,7 @@ class Employee(db.Model):
 class Orderline(db.Model):
     __table__ = db.Model.metadata.tables['orderline']
 class Orders(db.Model):
-    __table_args__ = {'extend_existing': True}
-    orderid = db.Column(db.Integer, primary_key=True)
+   __table__ = db.Model.metadata.tables['orders']
 class Publisher(db.Model):
     __table__ = db.Model.metadata.tables['publisher']
 class Subscription(db.Model):
