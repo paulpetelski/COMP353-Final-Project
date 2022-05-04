@@ -14,7 +14,7 @@
             <h4 class="pt-3">${{book.RetailPrice}}</h4>
             <p>{{publisher.Name}}</p>
             <p id="author"></p>
-            <button class="btn btn-warning" type="button" onclick="window.location.href='{{ url_for( 'add_book' , book = book.ProductID ) }}';">Add to cart</button>
+            <button class="btn btn-warning" type="button" onclick="window.location.href='{{ url_for( 'add_book' , book = book.ProductID ) }}';">Order</button>
             {% if current_user.email == 'admin@gmail.com' %}
                 <!-- Report #17 -->
                 <button class="btn btn-warning" type="button" onclick="window.location.href='{{ url_for( 'update', pid=book.ProductID ) }}';">Edit</button>
@@ -28,30 +28,30 @@
         </div>
     </div>
 	{% if book.type == 'b' %}
-    <script>
-        // search API for book by isbn number
-        async function getBook(isbn){
-            const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`;
-            const resp = await fetch(url);
-            const data = await resp.json();
-            
-            const book = new Object();
-            book.title = data.items[0].volumeInfo.title;
-            book.description = data.items[0].volumeInfo.description;
-            book.author = data.items[0].volumeInfo.authors;
+        <script>
+            // search API for book by isbn number
+            async function getBook(isbn){
+                const url = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`;
+                const resp = await fetch(url);
+                const data = await resp.json();
+                
+                const book = new Object();
+                book.title = data.items[0].volumeInfo.title;
+                book.description = data.items[0].volumeInfo.description;
+                book.author = data.items[0].volumeInfo.authors;
+                // comment
+                console.log(data)
+                console.log(book.title);
+                console.log(book.description);
+                document.getElementById('author').innerHTML = book.author;
+                document.getElementById('description').innerHTML = book.description;
+            } 
 
-            console.log(data)
-            console.log(book.title);
-            console.log(book.description);
-            document.getElementById('author').innerHTML = book.author;
-            document.getElementById('description').innerHTML = book.description;
-        } 
+            // get isbn number from flask variable and pass to javascript
+            getBook({{isbn.ISBN|tojson|safe}});
 
-        // get isbn number from flask variable and pass to javascript
-        getBook({{isbn.ISBN|tojson|safe}});
-
-    </script>
+        </script>
 	{% endif %}
-{% endblock content %}
+    {% endblock content %}
 
 
