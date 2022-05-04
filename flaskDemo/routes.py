@@ -189,16 +189,14 @@ def adminpage():
     """ Report #13 Regular SQL"""
     customersNotOrdered = connect("SELECT CustomerID, CustomerFirstName, CustomerLastName, Email FROM `customer` where CustomerID not in (Select customer.CustomerID from customer, orders where customer.CustomerID = orders.CustomerID);")
     
-#    subquery = db.session.query(Orders.CustomerID)
-#    customersemails = db.session.query(Customer.CustomerFirstName, Customer.CustomerLastName, Customer.Email).filter(Customer.CustomerID.in_(subquery))
-   
+
     subquery1 = db.session.query(Customer.CustomerID).join(Orders,Customer.CustomerID==Orders.CustomerID).join(Orderline, Orderline.OrderID==Orders.OrderID)\
     .join(Product, Product.ProductID==Orderline.ProductID).filter(Product.Type=='s').distinct()
+    
     booksandsubs = db.session.query(Customer.CustomerFirstName, Customer.CustomerLastName, Customer.Email, func.sum(Product.RetailPrice).label('Money'))\
     .join(Orders,Customer.CustomerID==Orders.CustomerID)\
     .join(Orderline, Orderline.OrderID==Orders.OrderID)\
     .join(Product, Product.ProductID==Orderline.ProductID).filter(Product.Type=='b', Customer.CustomerID.in_(subquery1)).distinct()
-    print( "Test", booksandsubs)
    
     
     return render_template('adminpage.html', books=mostExpensiveBooks, subscriptions=mostExpensiveSubscriptions, customers = customersNotOrdered, emails = booksandsubs, )
