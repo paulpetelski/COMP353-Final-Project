@@ -40,10 +40,7 @@ def connect(sql):
 @app.route("/")
 @app.route("/home")
 def home():
-    last = Customer.query.order_by(Customer.CustomerID.desc()).first()
-    lastCustomer = last.CustomerID + 1 
-    print (lastCustomer)
-    
+   
     """ Connect to MySQL database """
     """ Report -- #8 """
     rows = connect("SELECT * FROM Product")
@@ -107,30 +104,20 @@ def shopping_cart():
 
 @app.route("/checkout")
 def checkout():
-    customer = Customer.query.first()
-    order = Orders(CustomerID=3.0, DateOfOrder = datetime.today().strftime("%Y-%m-%d"), UserEmail = current_user.email)
+    customer = Customer.query.filter(Customer.Email==current_user.email).first()
+ 
+    order = Orders(CustomerID = customer.CustomerID, DateOfOrder = datetime.today().strftime("%Y-%m-%d"), UserEmail = current_user.email)
     db.session.add(order)
     db.session.commit()
     lastinOrder = Orders.query.order_by(Orders.OrderID.desc()).first()
-    #last = Orderline.query.order_by(Orderline.OrderID.desc()).first()
-    #last.OrderID = last.OrderID + 1
     for item in titlelist:
-        print(item)
+        
         book = Product.query.filter_by(Title=item).first()
         orderline= Orderline(OrderID = lastinOrder.OrderID, ProductID = book.ProductID , Quantity = 1)
-        print("orderline=",orderline) 
-        # --- print for debugging ---
-        #print("Adding to Orderline: %d, %d, %d" % (lastinOrder, book.ProductID, 1))
-        #print("cartlist:")
-        #print(cartlist)
-        #print("titlelist:")
-        #print( titlelist)
-        input("Before adding orderline")
-        print("orderline=",orderline)
+        
         db.session.add(orderline)
-        input("After adding orderline")
         db.session.commit()
-        input("After commit")
+       
     lastinOrderLine = Orderline.query.order_by(Orderline.OrderID.desc()).first()
     customerEmail = current_user.email
     customerID = Customer.query.filter_by(Email=customerEmail).first()

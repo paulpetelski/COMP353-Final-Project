@@ -40,10 +40,7 @@ def connect(sql):
 @app.route("/")
 @app.route("/home")
 def home():
-    last = Customer.query.order_by(Customer.CustomerID.desc()).first()
-    lastCustomer = last.CustomerID + 1 
-    print (lastCustomer)
-    
+   
     """ Connect to MySQL database """
     """ Report -- #8 """
     rows = connect("SELECT * FROM Product")
@@ -107,26 +104,23 @@ def shopping_cart():
 
 @app.route("/checkout")
 def checkout():
-    # have to add .first() to make it work
-    last = Orderline.query.order_by(Orderline.OrderID.desc()).first()
-    last.OrderID = last.OrderID + 1
+    customer = Customer.query.filter_by(Customer.Email==current_user.email).first()
+ 
+    order = Orders(CustomerID = customer.CustomerID, DateOfOrder = datetime.today().strftime("%Y-%m-%d"), UserEmail = current_user.email)
+    db.session.add(order)
+    db.session.commit()
+    lastinOrder = Orders.query.order_by(Orders.OrderID.desc()).first()
     for item in titlelist:
+        
         book = Product.query.filter_by(Title=item).first()
-        orderline= Orderline(OrderID = last.OrderID, ProductID = book.ProductID , Quantity = 1) 
-        # --- print for debugging ---
-        print("Adding to Orderline: %d, %d, %d" % (last.OrderID, book.ProductID, 1))
-        print("cartlist:")
-        print(cartlist)
-        print("titlelist:")
-        print( titlelist)
+        orderline= Orderline(OrderID = lastinOrder.OrderID, ProductID = book.ProductID , Quantity = 1)
+        
         db.session.add(orderline)
         db.session.commit()
+       
     lastinOrderLine = Orderline.query.order_by(Orderline.OrderID.desc()).first()
     customerEmail = current_user.email
     customerID = Customer.query.filter_by(Email=customerEmail).first()
-    order = Orders(OrderID = lastinOrderLine.OrderID, CustomerID = customerID.CustomerID, DateOfOrder = datetime.today().strftime("%Y-%m-%d"), UserEmail = current_user.email)
-    db.session.add(order)
-    db.session.commit()
     cartlist.clear()
     titlelist.clear()
     return render_template('homeaftercheckout.html', title="Home")
@@ -195,23 +189,16 @@ def adminpage():
     """ Report #13 Regular SQL"""
     customersNotOrdered = connect("SELECT CustomerID, CustomerFirstName, CustomerLastName, Email FROM `customer` where CustomerID not in (Select customer.CustomerID from customer, orders where customer.CustomerID = orders.CustomerID);")
     
-    subquery = db.session.query(Orders.CustomerID)
-    customersemails = db.session.query(Customer.CustomerFirstName, Customer.CustomerLastName, Customer.Email).filter(Customer.CustomerID.in_(subquery))
-
-    #print ("TEST for subq:" + str(customersemails))
-    #print (customersemails)
-    
-   # subquery1 = db.session.query(Customer.CustomerID).select_from(Customer).join(Orders).join(Orderline).join(Product)\
-   #.filter(Customer.CustomerID==Orders.CustomerID and Orders.OrderID==Orderline.OrderID and Product.ProductID==Orderline.ProductID and Product.Type == 's')
+#    subquery = db.session.query(Orders.CustomerID)
+#    customersemails = db.session.query(Customer.CustomerFirstName, Customer.CustomerLastName, Customer.Email).filter(Customer.CustomerID.in_(subquery))
+   
     subquery1 = db.session.query(Customer.CustomerID).join(Orders,Customer.CustomerID==Orders.CustomerID).join(Orderline, Orderline.OrderID==Orders.OrderID)\
     .join(Product, Product.ProductID==Orderline.ProductID).filter(Product.Type=='s').distinct()
     booksandsubs = db.session.query(Customer.CustomerFirstName, Customer.CustomerLastName, Customer.Email).join(Orders,Customer.CustomerID==Orders.CustomerID)\
     .join(Orderline, Orderline.OrderID==Orders.OrderID)\
     .join(Product, Product.ProductID==Orderline.ProductID).filter(Product.Type=='b', Customer.CustomerID.in_(subquery1)).distinct()
    
-    #booksandsubs = db.session.query(Customer.CustomerFirstName, Customer.CustomerLastName, Customer.Email).filter(Customer.CustomerID.in_(subquery))
-    print ("TEST for new:" + str(booksandsubs))
-    print (booksandsubs)
+   
     
     return render_template('adminpage.html', books=mostExpensiveBooks, subscriptions=mostExpensiveSubscriptions, customers = customersNotOrdered, emails = booksandsubs, )
 
