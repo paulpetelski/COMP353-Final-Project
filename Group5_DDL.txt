@@ -193,7 +193,10 @@ values
 (2, 4, '2021-04-10', '2021-04-12', 'alison@gmail.com'), 
 (3, 14, '2021-05-14', '2021-05-16', 'joanna@gmail.com'), 
 (4, 10, '2021-12-21', '2021-12-23', 'samantha@gmail.com'), 
-(5, 1, '2021-12-26', '2021-12-28', 'amanda@gmail.com');
+(5, 1, '2021-12-26', '2021-12-28', 'amanda@gmail.com'),
+(6, 1, '2022-01-10', '2022-01-12', 'amanda@gmail.com'),
+(7, 14, '2022-01-10', '2022-01-12', 'joanna@gmail.com'),
+(8, 2, '2022-01-12', '2022-01-12', 'corey@gmail.com');
 
  Insert into OrderLine
  (OrderID, ProductID, Quantity, SubscriptionStartDate, SubscriptionEndDate) 
@@ -204,8 +207,14 @@ values
  (3, 12, 1, '2021-05-14', '2023-05-14'), 
  (4, 12, 1, '2021-12-21', '2023-12-21'),
  (5, 6, 1, Null, Null),  
- (5, 13, 3,'2021-12-26', '2022-12-26');
- 
+ (5, 13, 3,'2021-12-26', '2022-12-26'),
+ (6, 15, 1, '2022-01-10', '2024-01-10'),
+ (6, 4, 2, Null, Null ),
+ (7, 10, 1,Null, Null ),
+ (7, 0, 2, Null, Null )
+ (7, 14, 1,'2022-01-10','2024-01-10'),
+ (8, 2, Null, Null);
+
  Insert into Department 
 
 (DepartmentID, DepartmentName) 
