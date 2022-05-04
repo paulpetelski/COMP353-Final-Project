@@ -76,17 +76,14 @@
       <div class="col-6">
          <table class="table table-striped table-hover">
             <thead>
-               <th>Subscription</th>
-               <th>Price</th>
-               <th>Category</th>
-               <th>Copies Sold</th>
-            </thead>
+               <th>Customer</th>
+               <th>e-Mail</th>
+             </thead>
             {% for customer in emails %}
             <tr>
-               <td>{{customer.CustomerFirstName}}</td>
-               <td>{{customer.CustomerLastName}}</td>
-               <td>{{Customer.Email}}</td>
-             </tr>
+               <td>{{customer.CustomerFirstName}} {{customer.CustomerLastName}}</td>
+               <td>{{customer.Email}}</td>
+            </tr>
             {% endfor %}
          </table>
       </div>
