@@ -8,6 +8,13 @@ from flaskDemo import db
 from flaskDemo.models import User, Department,Employee, User, Product, Book
 from wtforms.fields.html5 import DateField
 
+states = [ 'AK', 'AL', 'AR', 'AZ', 'CA', 'CO', 'CT', 'DC', 'DE', 'FL', 'GA',
+           'HI', 'IA', 'ID', 'IL', 'IN', 'KS', 'KY', 'LA', 'MA', 'MD', 'ME',
+           'MI', 'MN', 'MO', 'MS', 'MT', 'NC', 'ND', 'NE', 'NH', 'NJ', 'NM',
+           'NV', 'NY', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX',
+           'UT', 'VA', 'VT', 'WA', 'WI', 'WV', 'WY']
+
+
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(), Length(min=2, max=20)])
@@ -21,6 +28,7 @@ class RegistrationForm(FlaskForm):
     address = StringField('Address',validators=[DataRequired()])
     city = StringField('City',validators=[DataRequired()])
     state = StringField('State (Abbreviation ex. IL, MI, AZ)',validators=[DataRequired()])
+    state = SelectField('State', choices=states)
     zip = IntegerField('Zip',validators=[DataRequired()])
 
     submit = SubmitField('Sign Up')
