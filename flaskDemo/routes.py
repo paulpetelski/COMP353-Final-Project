@@ -107,26 +107,33 @@ def shopping_cart():
 
 @app.route("/checkout")
 def checkout():
-    # have to add .first() to make it work
-    last = Orderline.query.order_by(Orderline.OrderID.desc()).first()
-    last.OrderID = last.OrderID + 1
+    customer = Customer.query.first()
+    order = Orders(CustomerID=3.0, DateOfOrder = datetime.today().strftime("%Y-%m-%d"), UserEmail = current_user.email)
+    db.session.add(order)
+    db.session.commit()
+    lastinOrder = Orders.query.order_by(Orders.OrderID.desc()).first()
+    #last = Orderline.query.order_by(Orderline.OrderID.desc()).first()
+    #last.OrderID = last.OrderID + 1
     for item in titlelist:
+        print(item)
         book = Product.query.filter_by(Title=item).first()
-        orderline= Orderline(OrderID = last.OrderID, ProductID = book.ProductID , Quantity = 1) 
+        orderline= Orderline(OrderID = lastinOrder.OrderID, ProductID = book.ProductID , Quantity = 1)
+        print("orderline=",orderline) 
         # --- print for debugging ---
-        print("Adding to Orderline: %d, %d, %d" % (last.OrderID, book.ProductID, 1))
-        print("cartlist:")
-        print(cartlist)
-        print("titlelist:")
-        print( titlelist)
+        #print("Adding to Orderline: %d, %d, %d" % (lastinOrder, book.ProductID, 1))
+        #print("cartlist:")
+        #print(cartlist)
+        #print("titlelist:")
+        #print( titlelist)
+        input("Before adding orderline")
+        print("orderline=",orderline)
         db.session.add(orderline)
+        input("After adding orderline")
         db.session.commit()
+        input("After commit")
     lastinOrderLine = Orderline.query.order_by(Orderline.OrderID.desc()).first()
     customerEmail = current_user.email
     customerID = Customer.query.filter_by(Email=customerEmail).first()
-    order = Orders(OrderID = lastinOrderLine.OrderID, CustomerID = customerID.CustomerID, DateOfOrder = datetime.today().strftime("%Y-%m-%d"), UserEmail = current_user.email)
-    db.session.add(order)
-    db.session.commit()
     cartlist.clear()
     titlelist.clear()
     return render_template('homeaftercheckout.html', title="Home")
