@@ -60,6 +60,8 @@ def book_page(pid):
     book = Product.query.filter_by(ProductID=pid).first()
     isbn = Book.query.filter_by(ProductID=pid).first()
     publisher = Publisher.query.filter_by(PublisherID=book.PublisherID).first()
+    print("Book:", book)
+    print("Book Type: ", book.Type)
     return render_template('books.html',title=str(book.Title),book=book, publisher=publisher, isbn=isbn)
 
 @app.route("/addbook/<book>")
