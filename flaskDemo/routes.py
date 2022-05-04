@@ -176,18 +176,16 @@ def logout():
 @app.route("/adminpage", methods=['GET', 'POST'])
 def adminpage():
     """ Report #11 & #12 Regular SQL"""
-    mostExpensiveBooks = connect("SELECT Product.Title, Product.RetailPrice, Product.ProductID, Count(Orderline.ProductID) as numSold, Category\
+    mostPopularBooks = connect("SELECT Product.Title, Product.RetailPrice, Product.ProductID, Count(Orderline.ProductID) as numSold, Category\
         FROM `product`, orderline\
         where Product.ProductID = orderline.ProductID and Type = 'b'\
         group by ProductID\
         order by numSold desc\
         limit 3;")
     """ Report # 9 & 11 & 12 SQLAlchemy"""
-    mostExpensiveSubscriptions = db.session.query(Product.Title, Product.RetailPrice, Product.Category, func.count(Orderline.ProductID).label('count'))\
+    mostPopularSubscriptions = db.session.query(Product.Title, Product.RetailPrice, Product.Category, func.count(Orderline.ProductID).label('count'))\
     .select_from(Product).join(Orderline).filter(Product.Type == 's', Product.ProductID == Orderline.ProductID).group_by(Product.ProductID).order_by(func.count(Orderline.ProductID).desc()).limit(3).all()
 
-    print("Test: " + str(mostExpensiveSubscriptions))
-    print(mostExpensiveSubscriptions[0][0])
     """ Report #13 Regular SQL"""
     customersNotOrdered = connect("SELECT CustomerID, CustomerFirstName, CustomerLastName, Email FROM `customer` where CustomerID not in (Select customer.CustomerID from customer, orders where customer.CustomerID = orders.CustomerID);")
     
@@ -201,7 +199,7 @@ def adminpage():
     .join(Product, Product.ProductID==Orderline.ProductID).filter(Product.Type=='b', Customer.CustomerID.in_(subquery1)).distinct()
    
     
-    return render_template('adminpage.html', books=mostExpensiveBooks, subscriptions=mostExpensiveSubscriptions, customers = customersNotOrdered, emails = booksandsubs, )
+    return render_template('adminpage.html', books=mostPopularBooks, subscriptions=mostPopularSubscriptions, customers = customersNotOrdered, emails = booksandsubs, )
 
 @app.route("/delete_book/<pid>", methods=['GET', 'POST'])
 def delete_book(pid):
