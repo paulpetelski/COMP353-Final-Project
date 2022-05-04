@@ -27,6 +27,7 @@
             <p id="description"></p>
         </div>
     </div>
+	{% if book.type == 'b' %}
     <script>
         // search API for book by isbn number
         async function getBook(isbn){
@@ -50,6 +51,7 @@
         getBook({{isbn.ISBN|tojson|safe}});
 
     </script>
-    {% endblock content %}
+	{% endif %}
+{% endblock content %}
 
 
