@@ -213,7 +213,7 @@ values
  (7, 10, 1,Null, Null ),
  (7, 0, 2, Null, Null ),
  (7, 14, 1,'2022-01-10','2024-01-10'),
- (8, 2, Null, Null);
+ (8, 2, 1, Null, Null);
 
  Insert into Department 
 
